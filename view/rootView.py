@@ -5,23 +5,35 @@
 """
 from utils.require import require
 require("tkinter")
+
 from tkinter import Tk
 
-from frame.rootFrame import RootFrame
+from .frame import HomeFrame
 
 __all__ = ['RootView',]
-
+#Singleton class
 class RootView(Tk):
+
+    __instance =None
+
+    @staticmethod
+    def getInstance():
+        if RootView.__instance == None:
+            RootView()
+        return RootView.__instance
+
     def __init__(self):
+        if RootView.__instance != None:
+            raise Exception("Cette classe est un Singleton")
+        else:
+            RootView.__instance = self
+            
         super(RootView,self).__init__()
-        self.frame = RootFrame(self)
-        self.frame.pack()
+        self.frame = HomeFrame(self)
+        self.frame.pack(side="top", fill="both", expand = True) 
+        #self.wm_attributes("-fullscreen",True)
 
     def setFrame(self,frame):
+        self.frame.pack_forget()
         self.frame = frame
-        self.frame.pack()
-
-
-if __name__ == "__main__":
-    r = RootView()
-    r.mainloop()
+        self.frame.pack(side="top", fill="both", expand = True)

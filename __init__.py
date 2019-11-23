@@ -1,4 +1,5 @@
-from .main import *
 from model import *
-from controller import *
+from view import *
+from controller import  *
 from utils import *
+from .main import *

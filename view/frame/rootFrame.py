@@ -6,15 +6,11 @@
 
 from utils.require import require
 require("tkinter")
-from tkinter import Frame,Label,StringVar,RAISED
+from tkinter import Frame
 
 __all__ = ['RootFrame',]
 
 class RootFrame(Frame):
     #Appel du constructeur parent
-    def __init__(self,root):
-        super(RootFrame, self).__init__(root)
-        var = StringVar()
-        self.label =Label(self,textvariable=var,relief=RAISED)
-        var.set("Welcome to Chroma project!")
-        self.label.pack()
+    def __init__(self,root, *args, **kw):
+        super(RootFrame, self).__init__(root, *args, **kw)

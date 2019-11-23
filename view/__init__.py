@@ -1,4 +1,4 @@
 from .rootView import *
+from .providerFrame import *
 from .frame import *
-from .panel import *
 from .image import *
