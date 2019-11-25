@@ -14,8 +14,7 @@ if __name__ == "__main__":
     p = ProviderFrame(v)
 
     c = PageController(m,v,p)
-    c.goToConfigTimePage()
-    c.goToRealTimeGraph()
+    
     c.getView().mainloop()
    
 

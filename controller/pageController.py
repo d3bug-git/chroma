@@ -13,26 +13,21 @@ from view import RootView,ProviderFrame
 __all__ = ['PageController',]
 
 class PageController:
-    def __init__(self, pageModel, rootView, providerFrame):
+    def __init__(self, pageModel:PageModel, rootView:RootView, providerFrame:ProviderFrame):
         self.pageModel = pageModel
-        self.rootView = rootView
+        self.rootView = rootView 
         self.providerFrame = providerFrame
+        
+        self.rootView.bind('<<BUTTON_OK>>',self.goToNextPage)
+        self.rootView.bind('<<BUTTON_STOP>>',self.goToPreviousPage)
+
         pub.subscribe(self.__pageChanged,"PAGE_CHANGED")
-    
-    def goToHome(self):
-        self.pageModel.goToHomePage()
-    
-    def goToUSBPage(self):
-        self.pageModel.goToUSBPage()
-    
-    def goToConfigTimePage(self):
-        self.pageModel.goToConfigTimePage()
-    
-    def goToConfirmAnalysePage(self):
-        self.pageModel.goToConfirmAnalysePage()
-    
-    def goToRealTimeGraph(self):
-        self.pageModel.goToGraphPage()
+
+    def goToNextPage(self,event):
+        self.pageModel.goToNextPage()
+
+    def goToPreviousPage(self,event):
+        self.pageModel.goToPreviousPage()
 
     def __pageChanged(self,page):
         frame = self.providerFrame.getFrame(self.convertPageToFrameName(page))

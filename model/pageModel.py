@@ -18,18 +18,13 @@ class PageModel:
     def __setPage(self, page):
         self.page = page
         pub.sendMessage("PAGE_CHANGED",page= page)
-
-    def goToHomePage(self):
-        self.__setPage(Page.HOME)
-
-    def goToUSBPage(self):
-        self.__setPage(Page.INSERT_USB)
+    def getPage(self):
+        return  self.page
     
-    def goToConfigTimePage(self):
-        self.__setPage(Page.CONFIG_TIME)
+    def goToNextPage(self):
+        page = self.page.getPage(self.page.value+1)
+        self.__setPage(page)
     
-    def goToConfirmAnalysePage(self):
-        self.__setPage(Page.CONFIRM_ANALYSE)
-    
-    def goToGraphPage(self):
-        self.__setPage(Page.REAL_TIME_GRAPH)
+    def goToPreviousPage(self):
+        page = self.page.getPage(self.page.value-1)
+        self.__setPage(page)

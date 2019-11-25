@@ -6,7 +6,7 @@
 from utils.require import require
 require("tkinter")
 
-from tkinter import Tk
+from tkinter import Tk,Button
 
 from .frame import HomeFrame
 
@@ -32,8 +32,21 @@ class RootView(Tk):
         self.frame = HomeFrame(self)
         self.frame.pack(side="top", fill="both", expand = True) 
         #self.wm_attributes("-fullscreen",True)
+        #button
+        self.buttonOk = Button(self,text="Ok",command=self._generateEventOkButton)
+        self.buttonOk.pack()
+        self.buttonStop = Button(self,text="Stop",command=self._generateEventStopButton)
+        self.buttonStop.pack()
+    
+    def _generateEventOkButton(self):
+        self.event_generate('<<BUTTON_OK>>')
+
+    def _generateEventStopButton(self):
+        self.event_generate('<<BUTTON_STOP>>')
+
 
     def setFrame(self,frame):
         self.frame.pack_forget()
+        self.frame.destroy()
         self.frame = frame
         self.frame.pack(side="top", fill="both", expand = True)

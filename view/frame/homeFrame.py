@@ -16,6 +16,7 @@ class HomeFrame(RootFrame):
     def __init__(self,*args,**kw):
         super(HomeFrame,self).__init__(*args,**kw)
         self.configure(background="green")
+        #label
         var = StringVar()
         self.label =Label(self,textvariable=var,relief=RAISED)
         var.set("HomeFrame")
