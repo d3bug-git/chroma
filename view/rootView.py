@@ -44,7 +44,6 @@ class RootView(Tk):
     def _generateEventStopButton(self):
         self.event_generate('<<BUTTON_STOP>>')
 
-
     def setFrame(self,frame):
         self.frame.pack_forget()
         self.frame.destroy()

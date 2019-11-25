@@ -17,7 +17,7 @@ class PageController:
         self.pageModel = pageModel
         self.rootView = rootView 
         self.providerFrame = providerFrame
-        
+
         self.rootView.bind('<<BUTTON_OK>>',self.goToNextPage)
         self.rootView.bind('<<BUTTON_STOP>>',self.goToPreviousPage)
 
@@ -34,7 +34,7 @@ class PageController:
         self.rootView.setFrame(frame)
 
     """this func transform Page.VALUE to VALUE """
-    def convertPageToFrameName(self,page: PageModel): 
+    def convertPageToFrameName(self,page: PageModel):
         return str(page)[5:]
 
     def getView(self):

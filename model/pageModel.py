@@ -18,6 +18,7 @@ class PageModel:
     def __setPage(self, page):
         self.page = page
         pub.sendMessage("PAGE_CHANGED",page= page)
+        
     def getPage(self):
         return  self.page
     
