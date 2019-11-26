@@ -10,6 +10,9 @@ from pubsub import pub
 from model import Page,PageModel
 from view import RootView,ProviderFrame
 
+from hardware import *
+import RPi.GPIO as GPIO
+
 __all__ = ['PageController',]
 
 class PageController:
@@ -22,7 +25,8 @@ class PageController:
         self.rootView.bind('<<BUTTON_STOP>>',self.goToPreviousPage)
 
         pub.subscribe(self.__pageChanged,"PAGE_CHANGED")
-
+        pub.subscribe(self.__hardwareHandler,"HARDWARE_EVENT")
+        
     def goToNextPage(self,event):
         self.pageModel.goToNextPage()
 
@@ -32,6 +36,9 @@ class PageController:
     def __pageChanged(self,page):
         frame = self.providerFrame.getFrame(self.convertPageToFrameName(page))
         self.rootView.setFrame(frame)
+    
+    def __hardwareHandler(self,button):
+        self.pageModel.goToNextPage()
 
     """this func transform Page.VALUE to VALUE """
     def convertPageToFrameName(self,page: PageModel):

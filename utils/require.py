@@ -10,7 +10,7 @@ __all__ = ['install','require',]
 
 #En fonction de la version de pip je choisi le bon main
 if int(pip.__version__.split('.')[0])>9:
-    from pip._internal.main import main
+    from pip._internal import main
 else: 
     from pip import main
 
