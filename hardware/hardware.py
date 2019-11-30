@@ -3,8 +3,8 @@
 """
 @author: Serge Watchou
 """
-from .broche import *
-import RPi.GPIO as GPIO
+from .broche import Broche
+#import RPi.GPIO as GPIO
 
 from  utils.require import require
 require("pypubsub")
@@ -29,10 +29,9 @@ class Hardware:
         else:
             Hardware.__instance = self
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(BUTTON_OK,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
-        GPIO.add_event_detect(BUTTON_OK,GPIO.RISING,callback=self.my_call,bouncetime=500)
+        GPIO.setup(Broche.BUTTON_OK.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.BUTTON_OK.value,GPIO.RISING,callback=self.my_call,bouncetime=500)
         
-    def my_call(self,BUTTON_OK):
-        print("btn OK pressé")
-        pub.sendMessage("HARDWARE_EVENT",button = BUTTON_OK)
-        
+    def my_call(self,button):
+        print("btn pressé")
+        pub.sendMessage("HARDWARE_EVENT",button = button)"

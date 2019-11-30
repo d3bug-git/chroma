@@ -1,5 +1,16 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+@author: Serge Watchou
+"""
 
-BUTTON_OK = 11
-BUTTON_STOP = 13
-BUTTON_PLUS = 15
-BUTTON_MOINS = 16
+from enum import IntEnum,unique
+
+__all__ = ['Broche']
+
+@unique
+class Broche(IntEnum):
+    BUTTON_OK = 11
+    BUTTON_STOP = 12
+    BUTTON_PLUS = 13
+    BUTTON_MOINS = 14

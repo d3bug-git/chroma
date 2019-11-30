@@ -4,13 +4,16 @@
 @author: Serge Watchou
 """
 
-import pip, sys
+import pip, sys,platform
 
 __all__ = ['install','require',]
 
 #En fonction de la version de pip je choisi le bon main
 if int(pip.__version__.split('.')[0])>9:
-    from pip._internal import main
+    if platform.system() =='Windows':
+        from pip._internal.main import main
+    else:
+        from pip._internal import main       
 else: 
     from pip import main
 

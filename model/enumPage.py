@@ -3,10 +3,11 @@
 """
 @author: Serge Watchou
 """
-from enum import Enum
+from enum import Enum,unique
 
 __all__ =['Page',]
 
+@unique
 class Page(Enum):
     HOME = 1
     INSERT_USB = 2
