@@ -1,2 +1,4 @@
 from .broche import *
-#from .hardware import *
+import platform
+if platform.system() != 'Windows':
+    from .hardware import *

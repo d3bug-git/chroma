@@ -23,8 +23,8 @@ class InsertUSBFrame(RootFrame):
             #suivant
         self.labelSuivant =Label(self,text="Suivant",relief=RAISED)
         self.labelSuivant.configure(font=self.font,fg=self.colorOrange,bg="white")
-        self.labelSuivant.pack(side="bottom")
+        self.labelSuivant.pack(side="top")
             #insert USB
         self.labelInsertUsb =Label(self,text="Insérer une clé USB\npour stocker le résultat de l'analyse")
         self.labelInsertUsb.configure(font=self.font,fg=self.colorBlue,bg="white")
-        self.labelInsertUsb.pack(side="bottom")
+        self.labelInsertUsb.pack(side="top")

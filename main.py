@@ -3,16 +3,22 @@
 """
 @author: Serge Watchou
 """
+import platform
+
 from view import RootView,ProviderFrame
 from model import PageModel
 from controller import PageController
-#from hardware import Hardware
+
+if platform.system() != 'Windows':
+    from hardware import Hardware
+    
 
 if __name__ == "__main__":
     m = PageModel()
     v = RootView()
     p = ProviderFrame(v)
-    #h = Hardware()
+    if platform.system() != 'Windows':
+        h = Hardware()
 
     c = PageController(m,v,p)
     

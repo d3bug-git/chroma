@@ -23,8 +23,8 @@ class HomeFrame(RootFrame):
             #commencer
         self.labelCommencer =Label(self,text="Commencer",relief=RAISED)
         self.labelCommencer.configure(font=self.font,fg=self.colorOrange,bg="white")
-        self.labelCommencer.pack(side="bottom")
+        self.labelCommencer.pack(side="top")
             #enregistreur
         self.labelEnregistreur =Label(self,text="Bienvenue dans \nL'enregistreur de données")
         self.labelEnregistreur.configure(font=self.font,fg=self.colorBlue,bg="white")
-        self.labelEnregistreur.pack(side="bottom")
+        self.labelEnregistreur.pack(side="top")

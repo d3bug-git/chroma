@@ -20,7 +20,7 @@ class ChromaAnalyse:
         else:
             ChromaAnalyse.__instance = self
         
-        self.duration = 0
+        self.duration = 10
 
     def getDuration(self):
         return self.duration

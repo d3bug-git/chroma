@@ -24,13 +24,11 @@ class ProviderActionForFrame(object):
         self.chromaAnalyse = chromaAnalyse
     
     def getActionWhenQuit(self,frameName):
-        """méthode qui selectionne la bonne action"""
         method_name = 'action_when_quit_'+frameName
         method = getattr(self, method_name,lambda:print("action_when_quit_not_found_for: "+frameName))
         return  method()
 
     def getActionWhenGoTo(self,frameName,frame):
-        """méthode qui selectionne la bonne action"""
         method_name = 'action_when_go_to_'+frameName
         method = getattr(self, method_name,lambda frame:frame)
         return  method(frame)
@@ -41,6 +39,7 @@ class ProviderActionForFrame(object):
         print("action_founded")
         while len(path_key)==0 and cond:
             if len(path_key)==0:
+                #TODO: coder un composant askRetryCancel
                 cond = askretrycancel(title="Matériel d'enregistrement",message=msg)
         path_key= "/media/pi/" + path_key +"/data_chroma.xy"
     
