@@ -7,7 +7,7 @@ from  utils.require import require
 require("pypubsub")
 
 from pubsub import pub
-from model import Page,PageModel
+from model import Page,PageModel,ChromaAnalyse
 from view import RootView,ProviderFrame
 from .providerActionForFrame import ProviderActionForFrame
 
@@ -18,7 +18,8 @@ class PageController:
         self.pageModel = pageModel
         self.rootView = rootView 
         self.providerFrame = providerFrame
-        self.providerActionForFrame = ProviderActionForFrame()
+        self.chromaAnalyse = ChromaAnalyse.getInstance()
+        self.providerActionForFrame = ProviderActionForFrame(self.chromaAnalyse)
 
         self.rootView.bind('<<BUTTON_OK>>',self.goToNextPage)
         self.rootView.bind('<<BUTTON_STOP>>',self.goToPreviousPage)
@@ -35,6 +36,7 @@ class PageController:
 
     def __pageChanged(self,page):
         frame = self.providerFrame.getFrame(self.convertPageToFrameName(page))
+        frame = self.providerActionForFrame.getActionWhenGoTo(self.convertPageToFrameName(page),frame)
         self.rootView.setFrame(frame)
     
     def __hardwareHandler(self,button):

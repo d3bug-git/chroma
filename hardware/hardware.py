@@ -4,7 +4,7 @@
 @author: Serge Watchou
 """
 from .broche import Broche
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 from  utils.require import require
 require("pypubsub")
@@ -34,4 +34,4 @@ class Hardware:
         
     def my_call(self,button):
         print("btn pressé")
-        pub.sendMessage("HARDWARE_EVENT",button = button)"
+        pub.sendMessage("HARDWARE_EVENT",button = button)

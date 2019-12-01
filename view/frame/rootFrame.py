@@ -16,6 +16,11 @@ class RootFrame(Frame):
         super(RootFrame, self).__init__(root, *args, **kw)
         self.root = root
         self.configure(background="white")
+
+        #label
+        self.font = ('tahoma', 20, 'bold')
+        self.colorOrange = '#e6482d'
+        self.colorBlue = '#0e1a28'
         
         #image de fond
         photo =  ImageTk.PhotoImage(Image.open("yiec_min.jpg"))

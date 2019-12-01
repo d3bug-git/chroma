@@ -20,13 +20,11 @@ class InsertUSBFrame(RootFrame):
         self.canevas.create_image(0,0,anchor=NW,image=self.photo)
 
         #label
-        font = ('tahoma', 20, 'bold')
-        textColor = '#e6482d'
-            #commencer
-        self.labelCommencer =Label(self,text="Suivant",relief=RAISED)
-        self.labelCommencer.configure(font=font,fg=textColor,bg="white")
-        self.labelCommencer.pack(side="bottom")
-            #enregistreur
-        self.labelEnregistreur =Label(self,text="Insérer une clé USB\npour stocker le résultat de l'analyse")
-        self.labelEnregistreur.configure(font=font,fg='#0e1a28',bg="white")
-        self.labelEnregistreur.pack(side="bottom")
+            #suivant
+        self.labelSuivant =Label(self,text="Suivant",relief=RAISED)
+        self.labelSuivant.configure(font=self.font,fg=self.colorOrange,bg="white")
+        self.labelSuivant.pack(side="bottom")
+            #insert USB
+        self.labelInsertUsb =Label(self,text="Insérer une clé USB\npour stocker le résultat de l'analyse")
+        self.labelInsertUsb.configure(font=self.font,fg=self.colorBlue,bg="white")
+        self.labelInsertUsb.pack(side="bottom")

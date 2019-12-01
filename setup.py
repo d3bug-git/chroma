@@ -11,7 +11,7 @@ setuptools.setup(
     author='',
     name='Chroma project',
     py_modules=['main.py'],
-    packages=['controller','model','view'],
+    packages=['controller','model','view','hardware'],
     
     entry_points={}, 
         # Note, any changes to your setup.py, like adding to `packages`, or

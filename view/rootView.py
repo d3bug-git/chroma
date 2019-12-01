@@ -53,3 +53,6 @@ class RootView(Tk):
         self.frame.destroy()
         self.frame = frame
         self.frame.pack(side="top", fill="both", expand = True)
+        
+    def getFrame(self):
+        return self.frame

@@ -7,7 +7,6 @@ from view import RootView,ProviderFrame
 from model import PageModel
 from controller import PageController
 #from hardware import Hardware
-import time
 
 if __name__ == "__main__":
     m = PageModel()
