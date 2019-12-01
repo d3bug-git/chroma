@@ -26,6 +26,7 @@ class ConfigTimeFrame(RootFrame):
         
         #time spinbox
         self.spinboxTime = Spinbox(self,from_=10, to=120,increment=10)
+        self.spinboxTime.focus()
         self.spinboxTime.configure(font=self.font,fg=self.colorBlue,bg="white")
         
 
@@ -40,3 +41,11 @@ class ConfigTimeFrame(RootFrame):
     
     def getTimeConfigured(self):
         return int(self.spinboxTime.get())
+
+    #this method is call by provider action
+    def incrementTimeConfigured(self,event):
+        self.spinboxTime.invoke('buttonup')
+        
+    #this method is call by provider action
+    def decrementTimeConfigured(self,event):
+        self.spinboxTime.invoke('buttondown')

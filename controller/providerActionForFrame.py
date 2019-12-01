@@ -7,7 +7,8 @@ from utils import require
 require('tkinter')
 from tkinter.messagebox import askretrycancel
 from model import ChromaAnalyse
-from view import RootView,ConfirmAnalyseFrame
+from view import RootView,ConfirmAnalyseFrame,ConfigTimeFrame
+from hardware import Broche
 
 __all__ = ['ProviderActionForFrame',]
 
@@ -44,9 +45,18 @@ class ProviderActionForFrame(object):
         path_key= "/media/pi/" + path_key +"/data_chroma.xy"
     
     def action_when_quit_CONFIG_TIME(self):
+        import controller
         #self.action_when_quit_INSERT_USB(msg="Veuillez insérer la clé USB pour Continuer")
         self.chromaAnalyse.setDuration(int(RootView.getInstance().getFrame().getTimeConfigured()))
+        RootView.getInstance().unbind("<<"+controller.convertBrocheToBrocheName(Broche.BUTTON_PLUS)+">>")
+        RootView.getInstance().unbind("<<"+controller.convertBrocheToBrocheName(Broche.BUTTON_MOINS)+">>")
 
     def action_when_go_to_CONFIRM_ANALYSE(self,frame:ConfirmAnalyseFrame):
         frame.setDuration(self.chromaAnalyse.getDuration())
+        return frame
+
+    def action_when_go_to_CONFIG_TIME(self,frame:ConfigTimeFrame):
+        import controller
+        RootView.getInstance().bind("<<"+controller.convertBrocheToBrocheName(Broche.BUTTON_PLUS)+">>",frame.incrementTimeConfigured)
+        RootView.getInstance().bind("<<"+controller.convertBrocheToBrocheName(Broche.BUTTON_MOINS)+">>",frame.decrementTimeConfigured)
         return frame

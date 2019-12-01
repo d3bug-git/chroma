@@ -29,9 +29,25 @@ class Hardware:
         else:
             Hardware.__instance = self
         GPIO.setmode(GPIO.BOARD)
+
+        #Button Ok
         GPIO.setup(Broche.BUTTON_OK.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
-        GPIO.add_event_detect(Broche.BUTTON_OK.value,GPIO.RISING,callback=self.my_call,bouncetime=500)
+        GPIO.add_event_detect(Broche.BUTTON_OK.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
         
-    def my_call(self,button):
-        print("btn pressé")
-        pub.sendMessage("HARDWARE_EVENT",button = button)
+        #Button Stop
+        GPIO.setup(Broche.BUTTON_STOP.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.BUTTON_STOP.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
+
+        #Button Plus
+        GPIO.setup(Broche.BUTTON_PLUS.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.BUTTON_PLUS.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
+
+        #Button moins
+        GPIO.setup(Broche.BUTTON_MOINS.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.BUTTON_MOINS.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
+
+    def sendHardwareEvent(self,broche):
+        pub.sendMessage("HARDWARE_EVENT",broche = broche)
+        
+    def onClickButton(self,button):
+        self.sendHardwareEvent(Broche.getBroche(button))

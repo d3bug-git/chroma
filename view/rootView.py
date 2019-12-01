@@ -41,6 +41,11 @@ class RootView(Tk):
         self.panedWindow.add(self.buttonStop)
         self.buttonOk = Button(self.panedWindow,text="Ok",command=self._generateEventOkButton)
         self.panedWindow.add(self.buttonOk)
+        buttonPlus = Button(self.panedWindow,text="Plus",command =lambda : self.event_generate('<<BUTTON_PLUS>>'))
+        self.panedWindow.add(buttonPlus)
+        buttonMoins = Button(self.panedWindow,text="Moins",command =lambda : self.event_generate('<<BUTTON_MOINS>>'))
+        self.panedWindow.add(buttonMoins)
+
     
     def _generateEventOkButton(self):
         self.event_generate('<<BUTTON_OK>>')
