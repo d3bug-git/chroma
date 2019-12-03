@@ -6,7 +6,7 @@
 import platform
 
 from view import RootView,ProviderFrame
-from model import PageModel
+from model import PageModel,Page
 from controller import PageController
 
 if platform.system() != 'Windows':
@@ -21,7 +21,6 @@ if __name__ == "__main__":
         h = Hardware()
 
     c = PageController(m,v,p)
-    
     c.getView().mainloop()
    
 

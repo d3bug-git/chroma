@@ -7,7 +7,7 @@ from utils import require
 require('tkinter')
 from tkinter.messagebox import askretrycancel
 from model import ChromaAnalyse
-from view import RootView,ConfirmAnalyseFrame,ConfigTimeFrame,Popup,InsertUSBFrame
+from view import RootView,ConfirmAnalyseFrame,ConfigTimeFrame,Popup,InsertUSBFrame,GraphFrame
 from hardware import Broche
 import time
 
@@ -17,7 +17,7 @@ class ProviderActionForFrame(object):
     def __init__(self,controller=None,*args,**kw):
         super(ProviderActionForFrame).__init__(*args,**kw)
         self.controller = controller
-        self.i=0
+        self.animationForGraphFrameFunction =None
 
     def setController(self,controller):
         self.controller = controller
@@ -72,7 +72,8 @@ class ProviderActionForFrame(object):
 
     def action_when_quit_CONFIRM_ANALYSE(self):
         self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Lancer l'analyse")
-
+    def action_when_quit_REAL_TIME_GRAPH(self):
+        self.animationForGraphFrameFunction=None
 #********************************Action when go********************************
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
         RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
@@ -85,5 +86,10 @@ class ProviderActionForFrame(object):
 
     def action_when_go_to_CONFIRM_ANALYSE(self,frame:ConfirmAnalyseFrame):
         frame.setDuration(ChromaAnalyse.getInstance().getDuration())
+        return frame
+    
+    def action_when_go_to_REAL_TIME_GRAPH(self,frame:GraphFrame):
+        frame.setData(range(1,10,1))
+        self.animationForGraphFrameFunction = frame.startAnimation()
         return frame
 
