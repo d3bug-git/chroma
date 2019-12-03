@@ -21,9 +21,16 @@ class ChromaAnalyse:
             ChromaAnalyse.__instance = self
         
         self.duration = 10
+        self.keyPath = ""
 
     def getDuration(self):
         return self.duration
 
     def setDuration(self,duration):
         self.duration = duration
+
+    def getKeyPath(self):
+        return self.keyPath
+
+    def setKeyPath(self,keyPath):
+        self.keyPath = keyPath

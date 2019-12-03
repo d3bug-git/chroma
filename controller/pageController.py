@@ -12,44 +12,44 @@ from view import RootView,ProviderFrame
 from .providerActionForFrame import ProviderActionForFrame
 from hardware import Broche
 
-__all__ = ['PageController','convertPageToFrameName','convertBrocheToBrocheName']
+__all__ = ['PageController',]
 
 class PageController:
     def __init__(self, pageModel:PageModel, rootView:RootView, providerFrame:ProviderFrame):
         self.pageModel = pageModel
         self.rootView = rootView 
         self.providerFrame = providerFrame
-        self.chromaAnalyse = ChromaAnalyse.getInstance()
-        self.providerActionForFrame = ProviderActionForFrame(self.chromaAnalyse)
+        self.providerActionForFrame = ProviderActionForFrame()
+        self.providerActionForFrame.setController(self)
 
-        self.rootView.bind("<<"+convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.goToNextPage)
-        self.rootView.bind("<<"+convertBrocheToBrocheName(Broche.BUTTON_STOP)+">>",self.goToPreviousPage)
+        self.rootView.bind("<<"+self.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.goToNextPage)
+        self.rootView.bind("<<"+self.convertBrocheToBrocheName(Broche.BUTTON_STOP)+">>",self.goToPreviousPage)
 
         pub.subscribe(self.__pageChanged,"PAGE_CHANGED")
         pub.subscribe(self.__hardwareHandler,"HARDWARE_EVENT")
         
     def goToNextPage(self,event):
-        self.providerActionForFrame.getActionWhenQuit(convertPageToFrameName(self.pageModel.getPage()))
+        self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
         self.pageModel.goToNextPage()
 
     def goToPreviousPage(self,event):
         self.pageModel.goToPreviousPage()
 
     def __pageChanged(self,page):
-        frame = self.providerFrame.getFrame(convertPageToFrameName(page))
-        frame = self.providerActionForFrame.getActionWhenGoTo(convertPageToFrameName(page),frame)
+        frame = self.providerFrame.getFrame(self.convertPageToFrameName(page))
+        frame = self.providerActionForFrame.getActionWhenGoTo(self.convertPageToFrameName(page),frame)
         self.rootView.setFrame(frame)
     
     def __hardwareHandler(self,broche):
-        self.rootView.event_generate("<<"+convertBrocheToBrocheName(broche)+">>")
+        self.rootView.event_generate("<<"+self.convertBrocheToBrocheName(broche)+">>")
 
     def getView(self):
         return self.rootView
 
-#this func transform Page.VALUE to VALUE
-def convertPageToFrameName(page: PageModel):
-    return str(page)[5:]
+    #this func transform Page.VALUE to VALUE
+    def convertPageToFrameName(self,page: PageModel):
+        return str(page)[5:]
 
-#this func transform Broche.VALUE to VALUE
-def convertBrocheToBrocheName(broche: Broche):
-    return str(broche)[7:]
+    #this func transform Broche.VALUE to VALUE
+    def convertBrocheToBrocheName(self,broche: Broche):
+        return str(broche)[7:]
