@@ -51,3 +51,10 @@ class Hardware:
         
     def onClickButton(self,button):
         self.sendHardwareEvent(Broche.getBroche(button))
+    
+    def readAdcValue(self):
+        #1. read adc value
+        adcValue=1 #function of read here
+        #2. send adc value 
+        pub.sendMessage("HARDWARE_ADC_VALUE",adcValue=adcValue)
+        pass

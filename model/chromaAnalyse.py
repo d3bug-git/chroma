@@ -22,6 +22,7 @@ class ChromaAnalyse:
         
         self.duration = 10
         self.keyPath = ""
+        self.adcValue = []
 
     def getDuration(self):
         return self.duration
@@ -34,3 +35,9 @@ class ChromaAnalyse:
 
     def setKeyPath(self,keyPath):
         self.keyPath = keyPath
+
+    def setAdcValue(self,value):
+        self.adcValue.append(value)
+        
+    def getAdcValue(self):
+        return self.adcValue

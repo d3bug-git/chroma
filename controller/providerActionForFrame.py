@@ -4,8 +4,8 @@
 @author: Serge Watchou
 """
 from utils import require
-require('tkinter')
-from tkinter.messagebox import askretrycancel
+require("pypubsub")
+from pubsub import pub
 from model import ChromaAnalyse
 from view import RootView,ConfirmAnalyseFrame,ConfigTimeFrame,Popup,InsertUSBFrame,GraphFrame
 from hardware import Broche
@@ -72,8 +72,10 @@ class ProviderActionForFrame(object):
 
     def action_when_quit_CONFIRM_ANALYSE(self):
         self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Lancer l'analyse")
+   
     def action_when_quit_REAL_TIME_GRAPH(self):
         self.animationForGraphFrameFunction=None
+        pub.unsubscribe(ChromaAnalyse.getInstance().setAdcValue,"HARDWARE_ADC_VALUE")
 #********************************Action when go********************************
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
         RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
@@ -89,7 +91,7 @@ class ProviderActionForFrame(object):
         return frame
     
     def action_when_go_to_REAL_TIME_GRAPH(self,frame:GraphFrame):
-        frame.setData(range(1,10,1))
+        pub.subscribe(ChromaAnalyse.getInstance().setAdcValue,"HARDWARE_ADC_VALUE")
         self.animationForGraphFrameFunction = frame.startAnimation()
         return frame
 

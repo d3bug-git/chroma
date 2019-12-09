@@ -14,6 +14,7 @@ class Broche(IntEnum):
     BUTTON_STOP = 15
     BUTTON_PLUS = 12
     BUTTON_MOINS = 16
+    ADC_VALUE = 17
 
     @staticmethod
     def getBroche(broche:int):
