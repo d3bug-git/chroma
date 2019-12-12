@@ -77,9 +77,11 @@ class GraphFrame(RootFrame):
         return self.duration
     
     def animate(self,i):
-        #1. get data array values
-        self.data.append(randint(0,8))
-        self.time.append(i)
+        import platform
+        if platform.system() == 'Windows':
+            #1. get data array values
+            self.data.append(randint(0,8))
+            self.time.append(i)
 
         #2. clear subplot
         self.subPlot.clear()

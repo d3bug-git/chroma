@@ -73,10 +73,12 @@ class Hardware:
         #selector in position 0.5
         GPIO.setup(Broche.SELECTOR_VMAX_IN_POSITION_05.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_05.value,GPIO.RISING,callback=self.onTurnSelector,bouncetime=500)
+        print("activate selector")
     
     def deactivateSelector(self):
         self.stopThreadForReadAdc()
         GPIO.remove_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_05.value)
+        print("deactivate selector")
 
 #********************************************** END SELECTOR *******************************************
     
