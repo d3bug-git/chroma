@@ -61,6 +61,9 @@ class GraphFrame(RootFrame):
     def setData(self,data):
         self.data = data
     
+    def setTime(self,time):
+        self.time.append(time)
+    
     def setVMax(self,vMax):
         self.vMax = vMax
 

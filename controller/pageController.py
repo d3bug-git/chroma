@@ -50,7 +50,9 @@ class PageController:
         #if  in graphFrame set  adcValue to view
         if self.pageModel == Page.REAL_TIME_GRAPH:
             #save adcValue and set to graph
-            ChromaAnalyse.getInstance().setAdcValue(adcValue)
+            ChromaAnalyse.getInstance().setAdcValue(adcValue['value'])
+            RootView.getInstance().getFrame().setData(ChromaAnalyse.getInstance().getAdcValue())
+            RootView.getInstance().getFrame().setTime(adcValue['time'])
             pass 
         pass
     

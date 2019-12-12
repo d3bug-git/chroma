@@ -74,7 +74,12 @@ class ProviderActionForFrame(object):
         self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Lancer l'analyse")
    
     def action_when_quit_REAL_TIME_GRAPH(self):
+        import platform
+        if platform.system() != 'Windows':
+            from hardware import Hardware
+            Hardware.getInstance().deactivateSelector()
         self.animationForGraphFrameFunction=None
+        
 #********************************Action when go********************************
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
         RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
@@ -90,6 +95,10 @@ class ProviderActionForFrame(object):
         return frame
     
     def action_when_go_to_REAL_TIME_GRAPH(self,frame:GraphFrame):
+        import platform
+        if platform.system() != 'Windows':
+            from hardware import Hardware
+            Hardware.getInstance().activateSelector()
         self.animationForGraphFrameFunction = frame.startAnimation()
         frame.setDuration(ChromaAnalyse.getInstance().getDuration())
         return frame
