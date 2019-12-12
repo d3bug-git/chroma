@@ -75,7 +75,6 @@ class ProviderActionForFrame(object):
    
     def action_when_quit_REAL_TIME_GRAPH(self):
         self.animationForGraphFrameFunction=None
-        pub.unsubscribe(ChromaAnalyse.getInstance().setAdcValue,"HARDWARE_ADC_VALUE")
 #********************************Action when go********************************
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
         RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
@@ -91,7 +90,7 @@ class ProviderActionForFrame(object):
         return frame
     
     def action_when_go_to_REAL_TIME_GRAPH(self,frame:GraphFrame):
-        pub.subscribe(ChromaAnalyse.getInstance().setAdcValue,"HARDWARE_ADC_VALUE")
         self.animationForGraphFrameFunction = frame.startAnimation()
+        frame.setDuration(ChromaAnalyse.getInstance().getDuration())
         return frame
 

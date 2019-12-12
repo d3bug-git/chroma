@@ -27,9 +27,15 @@ class GraphFrame(RootFrame):
 
         self.title = "Chroma graph"
         self.data = []
+        self.time = []
+
+        self.vMax = 10
+        self.duration = 600
 
         self.figure = Figure(figsize=(5, 4), dpi=100)
         self.subPlot = self.figure.add_subplot(111)
+        self.subPlot.set_xlim(0, self.duration)
+        self.subPlot.set_ylim(0, self.vMax)
 
         self.canvas = FigureCanvasTkAgg(self.figure, master=self)  # A tk.DrawingArea.
         self.canvas.draw()
@@ -55,16 +61,31 @@ class GraphFrame(RootFrame):
     def setData(self,data):
         self.data = data
     
+    def setVMax(self,vMax):
+        self.vMax = vMax
+
+    def getVMax(self):
+        return self.vMax
+    
+    def setDuration(self,duration):
+        self.duration = duration*60 #convert in seconds
+    
+    def getDuration(self):
+        return self.duration
+    
     def animate(self,i):
         #1. get data array values
-        self.data =range(1,randint(1,20),1)
+        self.data.append(randint(0,8))
+        self.time.append(i)
 
         #2. clear subplot
         self.subPlot.clear()
         self.subPlot.set_title(self.title)
+        self.subPlot.set_xlim(0, self.duration)
+        self.subPlot.set_ylim(0, self.vMax)
 
-        #3. display subplot
-        self.subPlot.plot(self.data,self.data)
+        #3. display subplot (adcValue,timeWhentheAdcValueIsRead)
+        self.subPlot.plot(self.time,self.data)
 
     def startAnimation(self):
         return animation.FuncAnimation(self.figure,self.animate, interval=1000)

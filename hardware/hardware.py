@@ -3,8 +3,9 @@
 """
 @author: Serge Watchou
 """
-from .broche import Broche
+from .broche import Broche,POSITION_FOR_CHANNEL_A0,POSITION_FOR_CHANNEL_A1
 import RPi.GPIO as GPIO
+import Adafruit_ADS1x15
 
 from  utils.require import require
 require("pypubsub")
@@ -28,8 +29,23 @@ class Hardware:
             raise Exception("Cette classe est un Singleton")
         else:
             Hardware.__instance = self
-        GPIO.setmode(GPIO.BOARD)
+        # Create an ADS1115 ADC (16-bit) instance.
+        self.adc = Adafruit_ADS1x15.ADS1115()
 
+        # Choose a gain of 1 for reading voltages from 0 to 4.09V.
+        # Or pick a different gain to change the range of voltages that are read:
+        #  - 2/3 = +/-6.144V
+        #  -   1 = +/-4.096V
+        #  -   2 = +/-2.048V
+        #  -   4 = +/-1.024V
+        #  -   8 = +/-0.512V
+        #  -  16 = +/-0.256V
+        # See table 3 in the ADS1015/ADS1115 datasheet for more info on gain.
+        self.GAIN = 1
+        self.CHANNEL_A0 =0
+        self.CHANNEL_A1 =1
+
+        GPIO.setmode(GPIO.BOARD)
         #Button Ok
         GPIO.setup(Broche.BUTTON_OK.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(Broche.BUTTON_OK.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
@@ -46,15 +62,29 @@ class Hardware:
         GPIO.setup(Broche.BUTTON_MOINS.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(Broche.BUTTON_MOINS.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
 
+#********************************************** SELECTOR **********************************************
+        
+        #selector in position 0.5
+        GPIO.setup(Broche.SELECTOR_VMAX_IN_POSITION_05.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_05.value,GPIO.RISING,callback=self.onTurnSelector,bouncetime=500)
+
+#********************************************** END SELECTOR *******************************************
+    
     def sendHardwareEvent(self,broche):
         pub.sendMessage("HARDWARE_EVENT",broche = broche)
         
     def onClickButton(self,button):
         self.sendHardwareEvent(Broche.getBroche(button))
-    
-    def readAdcValue(self):
-        #1. read adc value
-        adcValue=1 #function of read here
-        #2. send adc value 
-        pub.sendMessage("HARDWARE_ADC_VALUE",adcValue=adcValue)
-        pass
+
+    #think to do some thread who read all the 1s and send message
+    def onTurnSelector(self,position):
+        if position in POSITION_FOR_CHANNEL_A0 :
+            self.readAdcValueOfChannelAndSendMessage(self.CHANNEL_A0)
+            return
+        if position in POSITION_FOR_CHANNEL_A1 :
+            self.readAdcValueOfChannelAndSendMessage(self.CHANNEL_A1)
+            return
+
+    def readAdcValueOfChannelAndSendMessage(self,channel):
+        adcValue=self.adc.read_adc(channel, gain=self.GAIN)
+        pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_A"+channel,adcValue=adcValue)
