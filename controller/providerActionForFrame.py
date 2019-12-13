@@ -81,7 +81,8 @@ class ProviderActionForFrame(object):
             from hardware import Hardware
             Hardware.getInstance().deactivateSelector()
         self.animationForGraphFrameFunction=None
-        
+        ChromaAnalyse.getInstance().resetAdcValue()
+         
 #********************************Action when go********************************
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
         #RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")

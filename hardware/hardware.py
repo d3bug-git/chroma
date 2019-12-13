@@ -112,6 +112,7 @@ class Hardware:
             if (time.time()- start)> 1:
                 adcValue=self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
                 print("adc value=",adcValue," at t=",i)
+                print("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED))
                 pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED),adcValue={'value':adcValue,'time':i})
                 start = time.time()
                 i+=1 
@@ -120,8 +121,10 @@ class Hardware:
                 break
             time.sleep(0.01)
     
-    def startThreadForReadAdc(self): 
+    def startThreadForReadAdc(self):
+        self.stopThreadForReadAdc()
         self.stop_threads  = False
+        self.threadForReadAdc = threading.Thread(target = self.readAdcValueOfChannelAndSendMessage, args=(self.CHANNEL_USED,))
         self.threadForReadAdc.start() 
         print('thread start')
 

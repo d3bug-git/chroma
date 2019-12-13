@@ -41,3 +41,6 @@ class ChromaAnalyse:
         
     def getAdcValue(self):
         return self.adcValue
+
+    def resetAdcValue(self):
+        self.adcValue = []

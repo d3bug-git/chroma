@@ -36,6 +36,7 @@ class PageController:
         self.pageModel.goToNextPage()
 
     def goToPreviousPage(self,event):
+        self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
         self.pageModel.goToPreviousPage()
 
     def __pageChanged(self,page):
@@ -48,11 +49,14 @@ class PageController:
     
     def __hardwareHandlerAdcValueOfChannelA0(self,adcValue):
         #if  in graphFrame set  adcValue to view
-        if self.pageModel == Page.REAL_TIME_GRAPH:
+        if self.pageModel.getPage() == Page.REAL_TIME_GRAPH:
+            #read gain in hardware 4096->10 x->? beacuse in graphFrame i put vMax to 10
+            value = (adcValue['value']*8)/4096
             #save adcValue and set to graph
-            ChromaAnalyse.getInstance().setAdcValue(adcValue['value'])
+            ChromaAnalyse.getInstance().setAdcValue(value)
             RootView.getInstance().getFrame().setData(ChromaAnalyse.getInstance().getAdcValue())
             RootView.getInstance().getFrame().setTime(adcValue['time'])
+            print("receive analog data ",value," at t=",adcValue['time'])
             pass 
         pass
     
