@@ -11,17 +11,23 @@ __all__ = ['Broche','POSITION_FOR_CHANNEL_A0',]
 
 @unique
 class Broche(IntEnum):
+
     BUTTON_OK = 11
     BUTTON_STOP = 15
     BUTTON_PLUS = 12
     BUTTON_MOINS = 16
+
     SELECTOR_VMAX_IN_POSITION_05 = 18 #means selector_0.5
     SELECTOR_VMAX_IN_POSITION_1 = 29
     SELECTOR_VMAX_IN_POSITION_2= 31
     SELECTOR_VMAX_IN_POSITION_5 = 33
     SELECTOR_VMAX_IN_POSITION_10 = 35
+
     I2C_SDA = 3
     I2C_SCL = 5
+
+    MACHINE_1 = 36
+    MACHINE_2 = 37
 
     @staticmethod
     def getBroche(broche:int):
