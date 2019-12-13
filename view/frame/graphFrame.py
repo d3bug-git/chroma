@@ -34,6 +34,9 @@ class GraphFrame(RootFrame):
 
         self.figure = Figure(figsize=(5, 4), dpi=100)
         self.subPlot = self.figure.add_subplot(111)
+        self.subPlot.set_title(self.title)
+        self.subPlot.set_xlabel("Temps (s)")
+        self.subPlot.set_ylabel("Machine calibré à "+str(self.vMax))
         self.subPlot.set_xlim(0, self.duration)
         self.subPlot.set_ylim(0, self.vMax)
 
@@ -85,7 +88,11 @@ class GraphFrame(RootFrame):
 
         #2. clear subplot
         self.subPlot.clear()
+
+        #set value
         self.subPlot.set_title(self.title)
+        self.subPlot.set_xlabel("Temps (s)")
+        self.subPlot.set_ylabel("Machine calibré à "+str(self.vMax))
         self.subPlot.set_xlim(0, self.duration)
         self.subPlot.set_ylim(0, self.vMax)
 
