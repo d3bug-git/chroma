@@ -127,5 +127,6 @@ class Hardware:
 
     def stopThreadForReadAdc(self): 
         self.stop_threads  = True
-        self.threadForReadAdc.join() 
-        print('thread killed')  
+        if self.threadForReadAdc.is_alive():
+            self.threadForReadAdc.join() 
+            print('thread killed')  
