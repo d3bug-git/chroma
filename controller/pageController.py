@@ -47,18 +47,17 @@ class PageController:
     def __hardwareHandler(self,broche):
         self.rootView.event_generate("<<"+self.convertBrocheToBrocheName(broche)+">>")
     
-    def __hardwareHandlerAdcValueOfChannelA0(self,adcValue):
-        #if  in graphFrame set  adcValue to view
+    def __hardwareHandlerAdcValueOfChannelA0(self,adcInfo):
+        #if  in graphFrame set  adcInfo to view
         if self.pageModel.getPage() == Page.REAL_TIME_GRAPH:
             #read gain in hardware 4096->10 x->? beacuse in graphFrame i put vMax to 10
-            value = (adcValue['value']*8)/4096
-            #save adcValue and set to graph
+            value = (adcInfo['value']*0.3)/4096
+            #save adcInfo and set to graph
             ChromaAnalyse.getInstance().setAdcValue(value)
             RootView.getInstance().getFrame().setData(ChromaAnalyse.getInstance().getAdcValue())
-            RootView.getInstance().getFrame().setTime(adcValue['time'])
-            print("receive analog data ",value," at t=",adcValue['time'])
-            pass 
-        pass
+            RootView.getInstance().getFrame().setTime(adcInfo['time'])
+            RootView.getInstance().getFrame().setVMax(adcInfo['vMax'])
+            print("receive analog data ",value," at t=",adcInfo['time'])
     
     def __hardwareHandlerAdcValueOfChannelA1(self,adcValue):
         #if  in graphFrame set  adcValue to view 

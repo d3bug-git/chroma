@@ -3,7 +3,7 @@
 """
 @author: Serge Watchou
 """
-from .broche import Broche,POSITION_FOR_CHANNEL_A0,POSITION_FOR_CHANNEL_A1
+from .broche import Broche,POSITION_FOR_CHANNEL_A0,POSITION_FOR_CHANNEL_A1,VMAX_FOR_CHANNEL_A0,VMAX_FOR_CHANNEL_A1
 import RPi.GPIO as GPIO
 import Adafruit_ADS1x15
 
@@ -48,6 +48,7 @@ class Hardware:
         self.CHANNEL_A0 =0
         self.CHANNEL_A1 =1
         self.CHANNEL_USED = None
+        self.VMAX = None
         self.threadForReadAdc = threading.Thread(target = self.readAdcValueOfChannelAndSendMessage, args=(self.CHANNEL_USED,)) 
 
         GPIO.setmode(GPIO.BOARD)
@@ -93,10 +94,12 @@ class Hardware:
         print("selector is turn")
         if position in POSITION_FOR_CHANNEL_A0 :
             self.CHANNEL_USED = self.CHANNEL_A0
+            self.VMAX = VMAX_FOR_CHANNEL_A0[str(position)]
             self.startThreadForReadAdc()
             return
         if position in POSITION_FOR_CHANNEL_A1 :
             self.CHANNEL_USED = self.CHANNEL_A1
+            self.VMAX = VMAX_FOR_CHANNEL_A0[str(position)]
             self.startThreadForReadAdc()
             return
 
@@ -105,17 +108,17 @@ class Hardware:
             raise Exception("Erreur: CHANNEL_USED=None ")
         return self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
         
-    def readAdcValueOfChannelAndSendMessage(self,channel):
+    def readAdcValueOfChannelAndSendMessage(self):
         start = time.time()
-        i = 0
+        seconds = 0
         while True:
             if (time.time()- start)> 1:
                 adcValue=self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
-                print("adc value=",adcValue," at t=",i)
                 print("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED))
-                pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED),adcValue={'value':adcValue,'time':i})
+                print("vMax=",self.VMAX," value=",adcValue," at t=",seconds)
+                pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED),adcInfo={'vMax':self.VMAX,'value':adcValue,'time':seconds})
                 start = time.time()
-                i+=1 
+                seconds+=1 
             self.stop_threads 
             if self.stop_threads : 
                 break
@@ -124,7 +127,7 @@ class Hardware:
     def startThreadForReadAdc(self):
         self.stopThreadForReadAdc()
         self.stop_threads  = False
-        self.threadForReadAdc = threading.Thread(target = self.readAdcValueOfChannelAndSendMessage, args=(self.CHANNEL_USED,))
+        self.threadForReadAdc = threading.Thread(target = self.readAdcValueOfChannelAndSendMessage)
         self.threadForReadAdc.start() 
         print('thread start')
 
