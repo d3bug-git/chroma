@@ -31,7 +31,7 @@ class GraphFrame(RootFrame):
         self.vMax = 10
         self.duration = 600
 
-        self.title = "Chroma graph\n"+"Machine calibré à "+str(self.vMax)+"V"
+        self.title = "Chroma graph\n"+"Machine calibrée à "+str(self.vMax)+"V"
 
         self.figure = Figure(figsize=(5, 4), dpi=100)
         self.subPlot = self.figure.add_subplot(111)
