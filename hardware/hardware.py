@@ -90,6 +90,7 @@ class Hardware:
 
     #think to do some thread who read all the 1s and send message
     def onTurnSelector(self,position):
+        print("selector is turn")
         if position in POSITION_FOR_CHANNEL_A0 :
             self.CHANNEL_USED = self.CHANNEL_A0
             self.startThreadForReadAdc()
@@ -109,22 +110,22 @@ class Hardware:
         i = 0
         while True:
             if (time.time()- start)> 1:
-                adcValue=self.adc.read_adc(channel, gain=self.GAIN)
+                adcValue=self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
                 print("adc value=",adcValue," at t=",i)
-                pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_A"+channel,adcValue={'value':adcValue,'time':i})
+                pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED),adcValue={'value':adcValue,'time':i})
                 start = time.time()
                 i+=1 
-            global stop_threads 
-            if stop_threads: 
+            self.stop_threads 
+            if self.stop_threads : 
                 break
             time.sleep(0.01)
     
     def startThreadForReadAdc(self): 
-        stop_threads = False
+        self.stop_threads  = False
         self.threadForReadAdc.start() 
         print('thread start')
 
     def stopThreadForReadAdc(self): 
-        stop_threads = True
+        self.stop_threads  = True
         self.threadForReadAdc.join() 
         print('thread killed')  

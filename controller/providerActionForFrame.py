@@ -53,12 +53,14 @@ class ProviderActionForFrame(object):
         import platform
         if platform.system() != 'Windows':
             popup = Popup()
+            popupCreate = False
             keyPath = self.getPathOfUSBKey()
             RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",popup.quit)
             while len(keyPath)==0:
                 popup.popupAskRetry(title=title,message=msg)
                 keyPath = self.getPathOfUSBKey()
             popup.destroy()
+            RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
             RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
             keyPath= "/media/pi/"+ keyPath
             ChromaAnalyse.getInstance().setKeyPath(keyPath)          
@@ -82,7 +84,7 @@ class ProviderActionForFrame(object):
         
 #********************************Action when go********************************
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
-        RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
+        #RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
         return frame
 
     def action_when_go_to_CONFIG_TIME(self,frame:ConfigTimeFrame):

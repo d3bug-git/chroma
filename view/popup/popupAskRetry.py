@@ -38,16 +38,14 @@ class Popup:
 
             #button
             buttonRetry = Button(frame,text="Ré-essayer")
-            buttonRetry.focus_force()
 
             #display
             panedWindow.pack(side="top")
             buttonRetry.pack(side="bottom")
             frame.pack(side="top", fill="x", padx=10, expand = True)
-            self.popup.mainloop()
         else:
-            self.popup.focus_force()
-            self.popup.mainloop()
+            self.popup.focus_force()   
+        self.popup.mainloop()
 
 
 
