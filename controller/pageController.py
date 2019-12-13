@@ -28,8 +28,7 @@ class PageController:
         pub.subscribe(self.__pageChanged,"PAGE_CHANGED")
         pub.subscribe(self.__hardwareHandler,"HARDWARE_EVENT")
 
-        pub.subscribe(self.__hardwareHandlerAdcValueOfChannelA0,"HARDWARE_ADC_VALUE_CHANNEL_A0")
-        pub.subscribe(self.__hardwareHandlerAdcValueOfChannelA1,"HARDWARE_ADC_VALUE_CHANNEL_A1")
+        pub.subscribe(self.__hardwareHandlerAdcValueOfChannelAX,"HARDWARE_ADC_VALUE_CHANNEL_AX")
         
     def goToNextPage(self,event):
         self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
@@ -47,7 +46,7 @@ class PageController:
     def __hardwareHandler(self,broche):
         self.rootView.event_generate("<<"+self.convertBrocheToBrocheName(broche)+">>")
     
-    def __hardwareHandlerAdcValueOfChannelA0(self,adcInfo):
+    def __hardwareHandlerAdcValueOfChannelAX(self,adcInfo):
         #if  in graphFrame set  adcInfo to view
         if self.pageModel.getPage() == Page.REAL_TIME_GRAPH:
             #read gain in hardware 4096->10 x->? beacuse in graphFrame i put vMax to 10
@@ -57,11 +56,7 @@ class PageController:
             RootView.getInstance().getFrame().setData(ChromaAnalyse.getInstance().getAdcValue())
             RootView.getInstance().getFrame().setTime(adcInfo['time'])
             RootView.getInstance().getFrame().setVMax(adcInfo['vMax'])
-            print("receive analog data ",value," at t=",adcInfo['time'])
-    
-    def __hardwareHandlerAdcValueOfChannelA1(self,adcValue):
-        #if  in graphFrame set  adcValue to view 
-        pass
+            print("receive analog data=",value," at t=",adcInfo['time'])
 
     def getView(self):
         return self.rootView

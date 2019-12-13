@@ -99,7 +99,7 @@ class Hardware:
             return
         if position in POSITION_FOR_CHANNEL_A1 :
             self.CHANNEL_USED = self.CHANNEL_A1
-            self.VMAX = VMAX_FOR_CHANNEL_A0[str(position)]
+            self.VMAX = VMAX_FOR_CHANNEL_A1[str(position)]
             self.startThreadForReadAdc()
             return
 
@@ -116,7 +116,7 @@ class Hardware:
                 adcValue=self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
                 print("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED))
                 print("vMax=",self.VMAX," value=",adcValue," at t=",seconds)
-                pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED),adcInfo={'vMax':self.VMAX,'value':adcValue,'time':seconds})
+                pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_AX",adcInfo={'vMax':self.VMAX,'value':adcValue,'time':seconds})
                 start = time.time()
                 seconds+=1 
             self.stop_threads 
