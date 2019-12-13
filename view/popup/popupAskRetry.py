@@ -17,12 +17,12 @@ SMALL_FONT = ("Helvetica", 8)
 class Popup:
     def __init__(self):
         self.displayPopup = True
-        self.popup = Tk()
     def getPopup(self):
         return self.popup
     def popupAskRetry(self,title="Warning",message="popupAskRetry"):
         if self.displayPopup:
             #popup
+            self.popup = Tk()
             self.popup.wm_title(title)
 
             frame = Frame(self.popup)
@@ -44,8 +44,8 @@ class Popup:
             buttonRetry.pack(side="bottom")
             frame.pack(side="top", fill="x", padx=10, expand = True)
         else:
-            self.popup.focus_force()   
-        self.popup.mainloop()
+            self.popup.focus_force()
+        self.popup.mainloop()  
 
 
 
@@ -53,4 +53,5 @@ class Popup:
         self.popup.quit()
         self.displayPopup=False 
     def destroy(self):
-        self.popup.destroy()
+        if not self.displayPopup:
+            self.popup.destroy()
