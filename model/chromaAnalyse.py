@@ -49,8 +49,12 @@ class ChromaAnalyse:
     def getTimeValue(self):
         return self.timeValue
 
-    def resetAdcValue(self):
+    def reset(self):
+        self.duration = 10
+        self.keyPath = ""
         self.adcValue = []
+        self.timeValue = []
+
     def saveDataToUsbKey(self):
         from datetime import datetime
         data = ""

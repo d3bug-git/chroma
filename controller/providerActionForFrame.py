@@ -81,7 +81,7 @@ class ProviderActionForFrame(object):
             Hardware.getInstance().deactivateSelector()
         self.animationForGraphFrameFunction=None
         ChromaAnalyse.getInstance().saveDataToUsbKey()
-        ChromaAnalyse.getInstance().resetAdcValue()
+        ChromaAnalyse.getInstance().reset()
          
 #********************************Action when go********************************
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
