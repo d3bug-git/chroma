@@ -53,8 +53,9 @@ class PageController:
             value = (adcInfo['value']*0.3)/4096
             #save adcInfo and set to graph
             ChromaAnalyse.getInstance().setAdcValue(value)
+            ChromaAnalyse.getInstance().setTimeValue(adcInfo['time'])
             RootView.getInstance().getFrame().setData(ChromaAnalyse.getInstance().getAdcValue())
-            RootView.getInstance().getFrame().setTime(adcInfo['time'])
+            RootView.getInstance().getFrame().setTime(ChromaAnalyse.getInstance().getTimeValue())
             RootView.getInstance().getFrame().setVMax(adcInfo['vMax'])
             print("receive analog data=",value," at t=",adcInfo['time'])
 

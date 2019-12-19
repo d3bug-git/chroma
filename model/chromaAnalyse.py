@@ -23,6 +23,7 @@ class ChromaAnalyse:
         self.duration = 10
         self.keyPath = ""
         self.adcValue = []
+        self.timeValue = []
 
     def getDuration(self):
         return self.duration
@@ -38,9 +39,26 @@ class ChromaAnalyse:
 
     def setAdcValue(self,value):
         self.adcValue.append(value)
+
+    def setTimeValue(self,value):
+        self.timeValue.append(value)
         
     def getAdcValue(self):
         return self.adcValue
+    
+    def getTimeValue(self):
+        return self.timeValue
 
     def resetAdcValue(self):
         self.adcValue = []
+    def saveDataToUsbKey(self):
+        from datetime import datetime
+        data = ""
+        i=0
+        numberOfDataSave  = len(self.adcValue)
+        while i < numberOfDataSave:
+            data = data +str(self.timeValue[i])+";"+str(self.adcValue[i])+"\n"
+            i = i+1
+            
+        with open(self.keyPath+"analyse_"+str(datetime.now().strftime("%Y-%m-%d_%Hh%Mm%Ss"))+".xy", "w") as fichier:
+            fichier.write(data)

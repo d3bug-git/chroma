@@ -61,7 +61,7 @@ class ProviderActionForFrame(object):
             popup.destroy()
             RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
             RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
-            keyPath= "/media/pi/"+ keyPath
+            keyPath= "/media/pi/"+ keyPath+"/"
             ChromaAnalyse.getInstance().setKeyPath(keyPath)          
     
     def action_when_quit_CONFIG_TIME(self):
@@ -80,6 +80,7 @@ class ProviderActionForFrame(object):
             from hardware import Hardware
             Hardware.getInstance().deactivateSelector()
         self.animationForGraphFrameFunction=None
+        ChromaAnalyse.getInstance().saveDataToUsbKey()
         ChromaAnalyse.getInstance().resetAdcValue()
          
 #********************************Action when go********************************
