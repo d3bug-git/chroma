@@ -82,6 +82,7 @@ class ProviderActionForFrame(object):
         self.animationForGraphFrameFunction=None
         ChromaAnalyse.getInstance().saveDataToUsbKey()
         ChromaAnalyse.getInstance().reset()
+        RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
          
 #********************************Action when go********************************
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
@@ -103,5 +104,6 @@ class ProviderActionForFrame(object):
             Hardware.getInstance().activateSelector()
         self.animationForGraphFrameFunction = frame.startAnimation()
         frame.setDuration(ChromaAnalyse.getInstance().getDuration())
+        RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
         return frame
 

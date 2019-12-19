@@ -36,6 +36,9 @@ class PageController:
 
     def goToPreviousPage(self,event):
         self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
+        if self.pageModel.getPage() == Page.REAL_TIME_GRAPH:
+            self.pageModel.goToPage(Page.INSERT_USB)
+            return
         self.pageModel.goToPreviousPage()
 
     def __pageChanged(self,page):

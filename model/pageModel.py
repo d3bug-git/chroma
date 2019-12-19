@@ -21,6 +21,9 @@ class PageModel:
         
     def getPage(self):
         return  self.page
+
+    def goToPage(self,page):
+        self.__setPage(page)
     
     def goToNextPage(self):
         page = self.page.getPage(self.page.value+1)
