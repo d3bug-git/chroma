@@ -80,9 +80,9 @@ class ProviderActionForFrame(object):
             from hardware import Hardware
             Hardware.getInstance().deactivateSelector()
             #TODO: verify if usb key is inserted
+            ChromaAnalyse.getInstance().saveDataToUsbKey()
+            RootView.getInstance().getFrame().saveImageOfGraphWithName(ChromaAnalyse.getInstance().getKeyPath()+ChromaAnalyse.getInstance().getNameOfFile())
         self.animationForGraphFrameFunction=None
-        ChromaAnalyse.getInstance().saveDataToUsbKey()
-        RootView.getInstance().getFrame().saveImageOfGraphWithName(ChromaAnalyse.getInstance().getNameOfFile())
         popup = Popup()
         #bind to quit popup
         RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",popup.quit)
