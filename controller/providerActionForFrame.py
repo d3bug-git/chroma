@@ -79,10 +79,25 @@ class ProviderActionForFrame(object):
         if platform.system() != 'Windows':
             from hardware import Hardware
             Hardware.getInstance().deactivateSelector()
+            ChromaAnalyse.getInstance().saveDataToUsbKey()
         self.animationForGraphFrameFunction=None
-        ChromaAnalyse.getInstance().saveDataToUsbKey()
-        ChromaAnalyse.getInstance().reset()
+        #TODO: verify if usb key is inserted
+        popup = Popup()
+        #bind to quit popup
+        RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",popup.quit)
+        RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_STOP)+">>",popup.quit)
+        #display popup
+        title = "Matériel d'enregistrement"
+        message = "Les données ont bien été enregistrées sur la clé USB\n:)"
+        popup.popupInformation(title=title,message=message)
+        popup.destroy()
+        #unbind stop an ok to quit
+        RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
+        RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_STOP)+">>")
+        #bind ok,stop to next an previous page
         RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
+        RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_STOP)+">>",self.controller.goToPreviousPage)
+        ChromaAnalyse.getInstance().reset()
          
 #********************************Action when go********************************
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):

@@ -37,15 +37,43 @@ class Popup:
             panedWindow.add(labelMessage)
 
             #button
-            buttonRetry = Button(frame,text="Ré-essayer")
+            buttonOk = Button(frame,text="Ré-essayer")
 
             #display
             panedWindow.pack(side="top")
-            buttonRetry.pack(side="bottom")
+            buttonOk.pack(side="bottom")
             frame.pack(side="top", fill="x", padx=10, expand = True)
         else:
             self.popup.focus_force()
-        self.popup.mainloop()  
+        self.popup.mainloop()
+
+    def popupInformation(self,title="Info",message="Info"):
+        if self.displayPopup:
+            #popup
+            self.popup = Tk()
+            self.popup.wm_title(title)
+
+            frame = Frame(self.popup)
+            panedWindow = PanedWindow(frame)
+
+            #icon warning
+            labelIconWarning = Label(panedWindow,image="::tk::icons::information")
+            panedWindow.add(labelIconWarning)
+
+            #text
+            labelMessage = Label(panedWindow,text=message,font=NORM_FONT)
+            panedWindow.add(labelMessage)
+
+            #button
+            buttonOk = Button(frame,text="Ok")
+
+            #display
+            panedWindow.pack(side="top")
+            buttonOk.pack(side="bottom")
+            frame.pack(side="top", fill="x", padx=10, expand = True)
+        else:
+            self.popup.focus_force()
+        self.popup.mainloop()   
 
 
 
