@@ -80,6 +80,9 @@ class GraphFrame(RootFrame):
     def getDuration(self):
         return self.duration
     
+    def saveImageOfGraphWithName(self,name="unknow"):
+        self.figure.savefig(name, dpi=self.figure.dpi)
+    
     def animate(self,i):
         import platform
         if platform.system() == 'Windows':

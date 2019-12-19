@@ -24,9 +24,13 @@ class ChromaAnalyse:
         self.keyPath = ""
         self.adcValue = []
         self.timeValue = []
+        self.nameOfFile="unknow"
 
     def getDuration(self):
         return self.duration
+
+    def getNameOfFile(self):
+        return self.nameOfFile
 
     def setDuration(self,duration):
         self.duration = duration
@@ -54,6 +58,7 @@ class ChromaAnalyse:
         self.keyPath = ""
         self.adcValue = []
         self.timeValue = []
+        self.nameOfFile="unknow"
 
     def saveDataToUsbKey(self):
         from datetime import datetime
@@ -63,6 +68,6 @@ class ChromaAnalyse:
         while i < numberOfDataSave:
             data = data +str(self.timeValue[i])+";"+str(self.adcValue[i])+"\n"
             i = i+1
-            
-        with open(self.keyPath+"analyse_"+str(datetime.now().strftime("%Y-%m-%d_%Hh%Mm%Ss"))+".xy", "w") as fichier:
+        self.nameOfFile = str(datetime.now().strftime("%Y-%m-%d_%Hh%Mm%Ss"))
+        with open(self.keyPath+"analyse_"+self.nameOfFile+".xy", "w") as fichier:
             fichier.write(data)
