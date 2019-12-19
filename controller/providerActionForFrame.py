@@ -53,7 +53,6 @@ class ProviderActionForFrame(object):
         import platform
         if platform.system() != 'Windows':
             popup = Popup()
-            popupCreate = False
             keyPath = self.getPathOfUSBKey()
             RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",popup.quit)
             while len(keyPath)==0:
@@ -85,7 +84,6 @@ class ProviderActionForFrame(object):
          
 #********************************Action when go********************************
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
-        #RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
         return frame
 
     def action_when_go_to_CONFIG_TIME(self,frame:ConfigTimeFrame):
