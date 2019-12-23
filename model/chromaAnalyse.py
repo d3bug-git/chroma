@@ -29,11 +29,11 @@ class ChromaAnalyse:
     def getDuration(self):
         return self.duration
 
-    def getNameOfFile(self):
-        return self.nameOfFile
-
     def setDuration(self,duration):
         self.duration = duration
+
+    def getNameOfFile(self):
+        return self.nameOfFile
 
     def getKeyPath(self):
         return self.keyPath

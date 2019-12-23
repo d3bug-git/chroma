@@ -68,6 +68,7 @@ class ProviderActionForFrame(object):
         self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Continuer")
 
         ChromaAnalyse.getInstance().setDuration(int(RootView.getInstance().getFrame().getTimeConfigured()))
+        pub.sendMessage("DURATION_OF_ANALYSE",duration=ChromaAnalyse.getInstance().getDuration())
         RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_PLUS)+">>")
         RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_MOINS)+">>")
 

@@ -32,6 +32,8 @@ class Hardware:
             raise Exception("Cette classe est un Singleton")
         else:
             Hardware.__instance = self
+        
+        pub.subscribe("DURATION_OF_ANALYSE",self.setDurationAnalyse)
         # Create an ADS1115 ADC (16-bit) instance.
         self.adc = Adafruit_ADS1x15.ADS1115()
 
@@ -50,6 +52,7 @@ class Hardware:
         self.CHANNEL_USED = None
         self.VMAX = None
         self.threadForReadAdc = threading.Thread(target = self.readAdcValueOfChannelAndSendMessage, args=(self.CHANNEL_USED,)) 
+        self.duration = 0
 
         GPIO.setmode(GPIO.BOARD)
         #Button Ok
@@ -82,7 +85,11 @@ class Hardware:
         print("deactivate selector")
 
 #********************************************** END SELECTOR *******************************************
+    def setDurationAnalyse(self,duration):
+        self.duration = duration*60 #convert in seconds
     
+    def getDurationOfAnalyse(self):
+        return self.duration
     def sendHardwareEvent(self,broche):
         pub.sendMessage("HARDWARE_EVENT",broche = broche)
         
@@ -111,7 +118,7 @@ class Hardware:
     def readAdcValueOfChannelAndSendMessage(self):
         start = time.time()
         seconds = 0
-        while True:
+        while True and seconds < self.duration:
             if (time.time()- start)> 1:
                 adcValue=self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
                 print("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED))
@@ -120,7 +127,7 @@ class Hardware:
                 start = time.time()
                 seconds+=1 
             self.stop_threads 
-            if self.stop_threads : 
+            if self.stop_threads :
                 break
             time.sleep(0.01)
     
