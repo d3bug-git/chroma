@@ -7,7 +7,7 @@ from utils import require
 require("pypubsub")
 from pubsub import pub
 from model import ChromaAnalyse
-from view import RootView,ConfirmAnalyseFrame,ConfigTimeFrame,Popup,InsertUSBFrame,GraphFrame
+from view import RootView,ConfirmAnalyseFrame,ConfigTimeFrame,Popup,InsertUSBFrame,GraphFrame,HomeFrame
 from hardware import Broche
 import time
 
@@ -79,7 +79,7 @@ class ProviderActionForFrame(object):
         import platform
         if platform.system() != 'Windows':
             from hardware import Hardware
-            Hardware.getInstance().deactivateSelector()
+            Hardware.getInstance().deactivateSelectorVmax()
             #TODO: verify if usb key is inserted
             ChromaAnalyse.getInstance().saveDataToUsbKey()
             RootView.getInstance().getFrame().saveImageOfGraphWithName(ChromaAnalyse.getInstance().getKeyPath()+ChromaAnalyse.getInstance().getNameOfFile())
@@ -102,6 +102,12 @@ class ProviderActionForFrame(object):
         ChromaAnalyse.getInstance().reset()
          
 #********************************Action when go********************************
+    def action_when_go_to_HOME(self,frame:HomeFrame):
+        import platform
+        if platform.system() != 'Windows':
+            from hardware import Hardware
+            Hardware.getInstance().activateSelectorMachine()
+        return frame
     def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
         return frame
 
@@ -118,7 +124,8 @@ class ProviderActionForFrame(object):
         import platform
         if platform.system() != 'Windows':
             from hardware import Hardware
-            Hardware.getInstance().activateSelector()
+            Hardware.getInstance().activateSelectorVmax()
+            Hardware.getInstance().deactivateSelectorMachine()
         self.animationForGraphFrameFunction = frame.startAnimation()
         frame.setDuration(ChromaAnalyse.getInstance().getDuration())
         RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")

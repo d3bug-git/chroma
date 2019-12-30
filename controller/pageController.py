@@ -29,6 +29,7 @@ class PageController:
         pub.subscribe(self.__hardwareHandler,"HARDWARE_EVENT")
 
         pub.subscribe(self.__hardwareHandlerAdcValueOfChannelAX,"HARDWARE_ADC_VALUE_CHANNEL_AX")
+        self.pageModel.goToPage(Page.HOME)
         
     def goToNextPage(self,event):
         self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
