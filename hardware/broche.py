@@ -28,6 +28,8 @@ class Broche(IntEnum):
 
     MACHINE_1 = 36
     MACHINE_2 = 37
+    SELECTOR_POSITION_MACHINE_1 = 35
+    SELECTOR_POSITION_MACHINE_2 = 38
 
     @staticmethod
     def getBroche(broche:int):

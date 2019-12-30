@@ -70,13 +70,45 @@ class Hardware:
         #Button moins
         GPIO.setup(Broche.BUTTON_MOINS.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(Broche.BUTTON_MOINS.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
+        
+        #machine 1
+        GPIO.setup(Broche.MACHINE_1.value,GPIO.OUT,initial=GPIO.LOW)
+
+        #machine 2
+        GPIO.setup(Broche.MACHINE_2.value,GPIO.OUT,initial=GPIO.LOW)
+
+        #selector in position machine_1
+        GPIO.setup(Broche.SELECTOR_POSITION_MACHINE_1.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.SELECTOR_POSITION_MACHINE_1.value,GPIO.RISING,callback=self.onTurnSelectorMachine,bouncetime=500)
+
+        #selector in position machine_2
+        GPIO.setup(Broche.SELECTOR_POSITION_MACHINE_2.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.SELECTOR_POSITION_MACHINE_2.value,GPIO.RISING,callback=self.onTurnSelectorMachine,bouncetime=500)
+
 
 #********************************************** SELECTOR **********************************************
 
     def activateSelector(self):
-        #selector in position 0.5
+        #selector in position 0->0.5V
         GPIO.setup(Broche.SELECTOR_VMAX_IN_POSITION_05.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
-        GPIO.add_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_05.value,GPIO.RISING,callback=self.onTurnSelector,bouncetime=500)
+        GPIO.add_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_05.value,GPIO.RISING,callback=self.onTurnSelectorVmax,bouncetime=500)
+
+        #selector in position 0->1V
+        GPIO.setup(Broche.SELECTOR_VMAX_IN_POSITION_1.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_1.value,GPIO.RISING,callback=self.onTurnSelectorVmax,bouncetime=500)
+        
+        #selector in position 0->2V
+        GPIO.setup(Broche.SELECTOR_VMAX_IN_POSITION_2.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_2.value,GPIO.RISING,callback=self.onTurnSelectorVmax,bouncetime=500)
+
+        #selector in position 0->5V
+        GPIO.setup(Broche.SELECTOR_VMAX_IN_POSITION_5.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_5.value,GPIO.RISING,callback=self.onTurnSelectorVmax,bouncetime=500)
+        
+        #selector in position 0->10V
+        GPIO.setup(Broche.SELECTOR_VMAX_IN_POSITION_10.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_10.value,GPIO.RISING,callback=self.onTurnSelectorVmax,bouncetime=500)
+
         print("activate selector")
     
     def deactivateSelector(self):
@@ -97,7 +129,7 @@ class Hardware:
         self.sendHardwareEvent(Broche.getBroche(button))
 
     #think to do some thread who read all the 1s and send message
-    def onTurnSelector(self,position):
+    def onTurnSelectorVmax(self,position):
         print("selector is turn")
         if position in POSITION_FOR_CHANNEL_A0 :
             self.CHANNEL_USED = self.CHANNEL_A0
@@ -109,6 +141,14 @@ class Hardware:
             self.VMAX = VMAX_FOR_CHANNEL_A1[str(position)]
             self.startThreadForReadAdc()
             return
+    
+    def onTurnSelectorMachine(self,machine):
+        if machine == Broche.MACHINE_1.value:
+            GPIO.output(Broche.MACHINE_1.value, GPIO.HIGH)
+            GPIO.output(Broche.MACHINE_2.value, GPIO.LOW)
+            return
+        GPIO.output(Broche.MACHINE_2.value, GPIO.HIGH)
+        GPIO.output(Broche.MACHINE_1.value, GPIO.LOW)
 
     def readAdcValue(self):
         if(self.CHANNEL_USED==None):
