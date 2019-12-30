@@ -144,11 +144,11 @@ class Hardware:
     
     def onTurnSelectorMachine(self,machine):
         if machine == Broche.MACHINE_1.value:
-            GPIO.output(Broche.MACHINE_1.value, GPIO.HIGH)
             GPIO.output(Broche.MACHINE_2.value, GPIO.LOW)
+            GPIO.output(Broche.MACHINE_1.value, GPIO.HIGH)
             return
-        GPIO.output(Broche.MACHINE_2.value, GPIO.HIGH)
         GPIO.output(Broche.MACHINE_1.value, GPIO.LOW)
+        GPIO.output(Broche.MACHINE_2.value, GPIO.HIGH)
 
     def readAdcValue(self):
         if(self.CHANNEL_USED==None):
