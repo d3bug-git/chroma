@@ -175,7 +175,6 @@ class Hardware:
                 pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_AX",adcInfo={'vMax':self.VMAX,'value':adcValue,'time':seconds})
                 start = time.time()
                 seconds+=1 
-            self.stop_threads 
             if self.stop_threads :
                 break
             time.sleep(0.01)
