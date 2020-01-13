@@ -54,7 +54,7 @@ class Hardware:
         self.threadForReadAdc = threading.Thread(target = self.readAdcValueOfChannelAndSendMessage, args=(self.CHANNEL_USED,)) 
         self.duration = 0
 
-        GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BCM)
         #Button Ok
         GPIO.setup(Broche.BUTTON_OK.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(Broche.BUTTON_OK.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
@@ -71,11 +71,8 @@ class Hardware:
         GPIO.setup(Broche.BUTTON_MOINS.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(Broche.BUTTON_MOINS.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
         
-        #machine 1
-        GPIO.setup(Broche.MACHINE_1.value,GPIO.OUT,initial=GPIO.LOW)
-
-        #machine 2
-        GPIO.setup(Broche.MACHINE_2.value,GPIO.OUT,initial=GPIO.LOW)
+        #machine 
+        GPIO.setup(Broche.MACHINE.value,GPIO.OUT,initial=GPIO.LOW)
 
         #selector in position machine_1
         GPIO.setup(Broche.SELECTOR_POSITION_MACHINE_1.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
@@ -152,12 +149,10 @@ class Hardware:
             return
     
     def onTurnSelectorMachine(self,machine):
-        if machine == Broche.MACHINE_1.value:
-            GPIO.output(Broche.MACHINE_2.value, GPIO.LOW)
-            GPIO.output(Broche.MACHINE_1.value, GPIO.HIGH)
+        if machine == Broche.SELECTOR_POSITION_MACHINE_1.value:
+            GPIO.output(Broche.MACHINE.value, GPIO.LOW)
             return
-        GPIO.output(Broche.MACHINE_1.value, GPIO.LOW)
-        GPIO.output(Broche.MACHINE_2.value, GPIO.HIGH)
+        GPIO.output(Broche.MACHINE.value, GPIO.HIGH)
 
     def readAdcValue(self):
         if(self.CHANNEL_USED==None):
