@@ -73,6 +73,10 @@ class ProviderActionForFrame(object):
         RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_MOINS)+">>")
 
     def action_when_quit_CONFIRM_ANALYSE(self):
+        import platform
+        if platform.system() != 'Windows':
+            from hardware import Hardware
+            Hardware.getInstance().deactiveSwitchMachine()
         self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Lancer l'analyse")
    
     def action_when_quit_REAL_TIME_GRAPH(self):
@@ -117,6 +121,10 @@ class ProviderActionForFrame(object):
         return frame
 
     def action_when_go_to_CONFIRM_ANALYSE(self,frame:ConfirmAnalyseFrame):
+        import platform
+        if platform.system() != 'Windows':
+            from hardware import Hardware
+            Hardware.getInstance().activeSwitchMachine()
         frame.setDuration(ChromaAnalyse.getInstance().getDuration())
         return frame
     

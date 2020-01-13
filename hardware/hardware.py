@@ -72,7 +72,13 @@ class Hardware:
         GPIO.add_event_detect(Broche.BUTTON_MOINS.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
         
         #machine 
-        GPIO.setup(Broche.MACHINE.value,GPIO.OUT,initial=GPIO.LOW)
+        GPIO.setup(Broche.RELAY_MACHINE.value,GPIO.OUT,initial=GPIO.LOW)
+
+        #switch machine_1
+        GPIO.setup(Broche.SWITCH_MACHINE_1.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+
+        #switch machine_2
+        GPIO.setup(Broche.SWITCH_MACHINE_2.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
 
         #selector in position machine_1
         GPIO.setup(Broche.SELECTOR_POSITION_MACHINE_1.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
@@ -112,6 +118,20 @@ class Hardware:
         GPIO.remove_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_10.value)
         print("deactivate selector Vmax")
 
+    def activeSwitchMachine(self):
+        GPIO.add_event_detect(Broche.SWITCH_MACHINE_1.value,GPIO.RISING,callback=self.detectSwitchMachine,bouncetime=500)
+        GPIO.add_event_detect(Broche.SWITCH_MACHINE_2.value,GPIO.RISING,callback=self.detectSwitchMachine,bouncetime=500)
+    
+    def deactiveSwitchMachine(self):
+        GPIO.remove_event_detect(Broche.SWITCH_MACHINE_1.value)
+        GPIO.remove_event_detect(Broche.SWITCH_MACHINE_2.value)
+    
+    def detectSwitchMachine(self,switch_machine):
+        if GPIO.input(Broche.SELECTOR_POSITION_MACHINE_1) and switch_machine == Broche.SWITCH_MACHINE_1.value:
+            self.sendHardwareEvent(Broche.getBroche(Broche.BUTTON_OK.value))
+            return
+        self.sendHardwareEvent(Broche.getBroche(Broche.BUTTON_OK.value))
+
     def activateSelectorMachine(self):
         GPIO.add_event_detect(Broche.SELECTOR_POSITION_MACHINE_2.value,GPIO.RISING,callback=self.onTurnSelectorMachine,bouncetime=500)
         GPIO.add_event_detect(Broche.SELECTOR_POSITION_MACHINE_1.value,GPIO.RISING,callback=self.onTurnSelectorMachine,bouncetime=500)
@@ -150,9 +170,9 @@ class Hardware:
     
     def onTurnSelectorMachine(self,machine):
         if machine == Broche.SELECTOR_POSITION_MACHINE_1.value:
-            GPIO.output(Broche.MACHINE.value, GPIO.LOW)
+            GPIO.output(Broche.RELAY_MACHINE.value, GPIO.LOW)
             return
-        GPIO.output(Broche.MACHINE.value, GPIO.HIGH)
+        GPIO.output(Broche.RELAY_MACHINE.value, GPIO.HIGH)
 
     def readAdcValue(self):
         if(self.CHANNEL_USED==None):
