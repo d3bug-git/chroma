@@ -47,8 +47,10 @@ class Hardware:
         #  -  16 = +/-0.256V
         # See table 3 in the ADS1015/ADS1115 datasheet for more info on gain.
         self.GAIN = 1
-        self.CHANNEL_A0 =0
-        self.CHANNEL_A1 =1
+        self.CHANNEL_A0 =1 #10v
+        self.CHANNEL_A1 =0  #5v
+        self.CHANNEL_A2 = 2 #surtension 5v
+        self.CHANNEL_A3 = 3 #surtension 10V
         self.CHANNEL_USED = None
         self.VMAX = None
         self.threadForReadAdc = threading.Thread(target = self.readAdcValueOfChannelAndSendMessage, args=(self.CHANNEL_USED,)) 
@@ -185,6 +187,15 @@ class Hardware:
         while True and seconds < self.duration:
             if (time.time()- start)> 1:
                 adcValue=self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
+                #lecture pour surtension
+                adcSurtension5V = self.adc.read_adc(self.CHANNEL_A2, gain=self.GAIN)
+                adcSurtension10V = self.adc.read_adc(self.CHANNEL_A3, gain=self.GAIN)
+                if adcSurtension5V >=600:
+                    pub.sendMessage("SURTENSION",info="5V")
+                    break;
+                elif adcSurtension10V >=600:
+                    pub.sendMessage("SURTENSION",info="10V")
+                    break;
                 print("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED))
                 print("vMax=",self.VMAX," value=",adcValue," at t=",seconds)
                 pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_AX",adcInfo={'vMax':self.VMAX,'value':adcValue,'time':seconds})

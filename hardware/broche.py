@@ -28,6 +28,7 @@ class Broche(IntEnum):
 
     SURTENSION_5V = 23
     SURTENSION_10V = 22
+    
     SWITCH_MACHINE_1 = 0
     SWITCH_MACHINE_2 = 19
 

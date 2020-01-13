@@ -31,6 +31,8 @@ class PageController:
         pub.subscribe(self.__hardwareHandlerAdcValueOfChannelAX,"HARDWARE_ADC_VALUE_CHANNEL_AX")
         self.pageModel.goToPage(Page.HOME)
         
+    def handlerSurtension(self,info):
+        pass   
     def goToNextPage(self,event):
         self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
         self.pageModel.goToNextPage()
@@ -54,7 +56,7 @@ class PageController:
         #if  in graphFrame set  adcInfo to view
         if self.pageModel.getPage() == Page.REAL_TIME_GRAPH:
             #read gain in hardware 4096->10 x->? beacuse in graphFrame i put vMax to 10
-            value = (adcInfo['value']*0.3)/4096
+            value = (adcInfo['value']*adcInfo['vMax'])/4096
             #save adcInfo and set to graph
             ChromaAnalyse.getInstance().setAdcValue(value)
             ChromaAnalyse.getInstance().setTimeValue(adcInfo['time'])
