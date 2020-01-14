@@ -30,7 +30,9 @@ class PageController:
 
         pub.subscribe(self.__hardwareHandlerAdcValueOfChannelAX,"HARDWARE_ADC_VALUE_CHANNEL_AX")
         self.pageModel.goToPage(Page.HOME)
-        
+
+        pub.subscribe(self.handlerSurtension,"SURTENSION")
+
     def handlerSurtension(self,info):
         pass   
     def goToNextPage(self,event):

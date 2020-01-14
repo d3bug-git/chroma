@@ -125,7 +125,8 @@ class ProviderActionForFrame(object):
         if platform.system() != 'Windows':
             from hardware import Hardware
             Hardware.getInstance().activeSwitchMachine()
-        frame.setDuration(ChromaAnalyse.getInstance().getDuration())
+        frame.setDuration(ChromaAnalyse.getInstance().getDuration())    ²²  
+        +
         return frame
     
     def action_when_go_to_REAL_TIME_GRAPH(self,frame:GraphFrame):
@@ -136,6 +137,7 @@ class ProviderActionForFrame(object):
             Hardware.getInstance().deactivateSelectorMachine()
         self.animationForGraphFrameFunction = frame.startAnimation()
         frame.setDuration(ChromaAnalyse.getInstance().getDuration())
+        frame.setVMax(Hardware.getInstance().getVMax())
         RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
         return frame
 
