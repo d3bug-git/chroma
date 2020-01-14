@@ -33,7 +33,7 @@ class Hardware:
         else:
             Hardware.__instance = self
         
-        pub.subscribe("DURATION_OF_ANALYSE",self.setDurationAnalyse)
+        pub.subscribe(self.setDurationAnalyse,"DURATION_OF_ANALYSE")
         # Create an ADS1115 ADC (16-bit) instance.
         self.adc = Adafruit_ADS1x15.ADS1115()
 
