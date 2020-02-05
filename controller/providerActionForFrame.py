@@ -126,7 +126,8 @@ class ProviderActionForFrame(object):
         if platform.system() != 'Windows':
             from hardware import Hardware
             Hardware.getInstance().activeSwitchMachine()
-        frame.setDuration(ChromaAnalyse.getInstance().getDuration())
+        frame.setDuration(ChromaAnalyse.getInstance().getDuration())    ²²  
+        +
         return frame
     
     def action_when_go_to_REAL_TIME_GRAPH(self,frame:GraphFrame):

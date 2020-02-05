@@ -151,6 +151,9 @@ class Hardware:
         return self.duration
     def sendHardwareEvent(self,broche):
         pub.sendMessage("HARDWARE_EVENT",broche = broche)
+    
+    def getVMax(self):
+        return self.VMAX
         
     def onClickButton(self,button):
         self.sendHardwareEvent(Broche.getBroche(button))
