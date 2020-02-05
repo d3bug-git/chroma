@@ -112,7 +112,6 @@ class Hardware:
 
     
     def deactivateSelectorVmax(self):
-        self.stopThreadForReadAdc()
         GPIO.remove_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_05.value)
         GPIO.remove_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_1.value)
         GPIO.remove_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_2.value)
@@ -161,13 +160,11 @@ class Hardware:
         print("selector is turn in position: ",position)
         if position in POSITION_FOR_CHANNEL_A0 :
             self.CHANNEL_USED = self.CHANNEL_A0
-            self.VMAX = VMAX_FOR_CHANNEL_A0[str(position)]
-            self.startThreadForReadAdc()
+            self.VMAX = VMAX_FOR_CHANNEL_A0[str(position)]    
             return
         if position in POSITION_FOR_CHANNEL_A1 :
             self.CHANNEL_USED = self.CHANNEL_A1
             self.VMAX = VMAX_FOR_CHANNEL_A1[str(position)]
-            self.startThreadForReadAdc()
             return
     
     def onTurnSelectorMachine(self,machine):

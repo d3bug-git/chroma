@@ -82,6 +82,8 @@ class ProviderActionForFrame(object):
     def action_when_quit_REAL_TIME_GRAPH(self):
         import platform
         if platform.system() != 'Windows':
+            from hardware import Hardware
+            Hardware.getInstance().stopThreadForReadAdc()
             #TODO: verify if usb key is inserted
             ChromaAnalyse.getInstance().saveDataToUsbKey()
             RootView.getInstance().getFrame().saveImageOfGraphWithName(ChromaAnalyse.getInstance().getKeyPath()+ChromaAnalyse.getInstance().getNameOfFile())
@@ -133,6 +135,7 @@ class ProviderActionForFrame(object):
             from hardware import Hardware
             Hardware.getInstance().deactivateSelectorMachine()
             Hardware.getInstance().deactivateSelectorVmax()
+            Hardware.getInstance().startThreadForReadAdc()
         self.animationForGraphFrameFunction = frame.startAnimation()
         frame.setDuration(ChromaAnalyse.getInstance().getDuration())
         RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
