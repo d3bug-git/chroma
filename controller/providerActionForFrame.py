@@ -82,8 +82,6 @@ class ProviderActionForFrame(object):
     def action_when_quit_REAL_TIME_GRAPH(self):
         import platform
         if platform.system() != 'Windows':
-            from hardware import Hardware
-            Hardware.getInstance().deactivateSelectorVmax()
             #TODO: verify if usb key is inserted
             ChromaAnalyse.getInstance().saveDataToUsbKey()
             RootView.getInstance().getFrame().saveImageOfGraphWithName(ChromaAnalyse.getInstance().getKeyPath()+ChromaAnalyse.getInstance().getNameOfFile())
@@ -107,12 +105,13 @@ class ProviderActionForFrame(object):
          
 #********************************Action when go********************************
     def action_when_go_to_HOME(self,frame:HomeFrame):
+        return frame
+    def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
         import platform
         if platform.system() != 'Windows':
             from hardware import Hardware
             Hardware.getInstance().activateSelectorMachine()
-        return frame
-    def action_when_go_to_INSERT_USB(self,frame:InsertUSBFrame):
+            Hardware.getInstance().activateSelectorVmax()
         return frame
 
     def action_when_go_to_CONFIG_TIME(self,frame:ConfigTimeFrame):
@@ -132,8 +131,8 @@ class ProviderActionForFrame(object):
         import platform
         if platform.system() != 'Windows':
             from hardware import Hardware
-            Hardware.getInstance().activateSelectorVmax()
             Hardware.getInstance().deactivateSelectorMachine()
+            Hardware.getInstance().deactivateSelectorVmax()
         self.animationForGraphFrameFunction = frame.startAnimation()
         frame.setDuration(ChromaAnalyse.getInstance().getDuration())
         RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")

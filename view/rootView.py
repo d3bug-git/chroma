@@ -32,7 +32,7 @@ class RootView(Tk):
         self.title("Chroma V0.1")
         self.frame = HomeFrame(self)
         self.frame.pack(side="top", fill="both", expand = True) 
-        self.wm_attributes("-fullscreen",True)
+        #self.wm_attributes("-fullscreen",True)
          
         #button
         self.panedWindow = PanedWindow()

@@ -158,7 +158,7 @@ class Hardware:
 
     #think to do some thread who read all the 1s and send message
     def onTurnSelectorVmax(self,position):
-        print("selector is turn")
+        print("selector is turn in position: ",position)
         if position in POSITION_FOR_CHANNEL_A0 :
             self.CHANNEL_USED = self.CHANNEL_A0
             self.VMAX = VMAX_FOR_CHANNEL_A0[str(position)]
@@ -173,8 +173,10 @@ class Hardware:
     def onTurnSelectorMachine(self,machine):
         if machine == Broche.SELECTOR_POSITION_MACHINE_1.value:
             GPIO.output(Broche.RELAY_MACHINE.value, GPIO.LOW)
+            print("machine 1 sélectionnée")
             return
         GPIO.output(Broche.RELAY_MACHINE.value, GPIO.HIGH)
+        print("machine 2 sélectionnée")
 
     def readAdcValue(self):
         if(self.CHANNEL_USED==None):
