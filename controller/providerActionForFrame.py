@@ -52,6 +52,7 @@ class ProviderActionForFrame(object):
     def action_when_quit_INSERT_USB(self,title="Matériel d'enregistrement",msg="Matériel d\'enregistrement,Aucune clef usb n\'a été détectée.\n \n Veuillez en insérer une."):
         import platform
         if platform.system() != 'Windows':
+            print("enter action when quit insert usb")
             popup = Popup()
             keyPath = self.getPathOfUSBKey()
             RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",popup.quit)
@@ -62,7 +63,8 @@ class ProviderActionForFrame(object):
             RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
             RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
             keyPath= "/media/pi/"+ keyPath+"/"
-            ChromaAnalyse.getInstance().setKeyPath(keyPath)          
+            ChromaAnalyse.getInstance().setKeyPath(keyPath)
+            print("quit action when quit insert usb")          
     
     def action_when_quit_CONFIG_TIME(self):
         self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Continuer")
@@ -126,8 +128,7 @@ class ProviderActionForFrame(object):
         if platform.system() != 'Windows':
             from hardware import Hardware
             Hardware.getInstance().activeSwitchMachine()
-        frame.setDuration(ChromaAnalyse.getInstance().getDuration())    ²²  
-        +
+        frame.setDuration(ChromaAnalyse.getInstance().getDuration())
         return frame
     
     def action_when_go_to_REAL_TIME_GRAPH(self,frame:GraphFrame):

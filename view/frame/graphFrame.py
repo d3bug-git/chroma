@@ -70,6 +70,8 @@ class GraphFrame(RootFrame):
     
     def setVMax(self,vMax):
         self.vMax = vMax
+        self.title = "Chroma graph\n"+"Machine calibrée à "+str(self.vMax)+"V"
+        self.subPlot.set_title(self.title)
 
     def getVMax(self):
         return self.vMax
