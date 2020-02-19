@@ -21,21 +21,20 @@ from .rootFrame import RootFrame
 __all__ = ['GraphFrame',]
 
 class GraphFrame(RootFrame):
+    TITLE_START="Chroma graph\n"+"Machine calibrée "
     def __init__(self,*args,**kw):
         super(GraphFrame,self).__init__(*args,**kw)
         self.canevas.pack_forget()
-
         self.data = []
         self.time = []
 
         self.vMax = 10
         self.duration = 600
-
-        self.title = "Chroma graph\n"+"Machine calibrée à "+str(self.vMax)+"V"
+        self.title= self.TITLE_START+"UNKNOW V"
 
         self.figure = Figure(figsize=(5, 4), dpi=100)
         self.subPlot = self.figure.add_subplot(111)
-        self.subPlot.set_title(self.title)
+        self.subPlot.set_title(self.getTitle())
         self.subPlot.set_xlabel("Temps (s)")
         self.subPlot.set_xlim(0, self.duration)
         self.subPlot.set_ylim(0, self.vMax)
@@ -47,6 +46,12 @@ class GraphFrame(RootFrame):
     
     def getFigure(self):
         return self.figure
+    
+    def getTitle(self):
+        return self.title
+    
+    def setTitle(self,title):
+        self.title = title
 
     def getSubPlot(self):
         return self.subPlot
@@ -70,8 +75,8 @@ class GraphFrame(RootFrame):
     
     def setVMax(self,vMax):
         self.vMax = vMax
-        self.title = "Chroma graph\n"+"Machine calibrée à "+str(self.vMax)+"V"
-        self.subPlot.set_title(self.title)
+        self.setTitle(self.TITLE_START+str(self.vMax)+"V")
+        self._updateSubPlot()
 
     def getVMax(self):
         return self.vMax
@@ -85,6 +90,17 @@ class GraphFrame(RootFrame):
     def saveImageOfGraphWithName(self,name="unknow"):
         self.figure.savefig(name, dpi=self.figure.dpi)
     
+    def _updateSubPlot(self):
+        #2. clear subplot
+        self.subPlot.clear()
+
+        #set value
+        self.subPlot.set_title(self.getTitle())
+        self.subPlot.set_xlabel("Temps (s)")
+        self.subPlot.set_xlim(0, self.getDuration())
+        self.subPlot.set_ylim(0, self.getVMax())
+        self.subPlot.set_yticks([])
+    
     def animate(self,i):
         import platform
         if platform.system() == 'Windows':
@@ -92,15 +108,7 @@ class GraphFrame(RootFrame):
             self.data.append(randint(0,8))
             self.time.append(i)
 
-        #2. clear subplot
-        self.subPlot.clear()
-
-        #set value
-        self.subPlot.set_title(self.title)
-        self.subPlot.set_xlabel("Temps (s)")
-        self.subPlot.set_xlim(0, self.duration)
-        self.subPlot.set_ylim(0, self.vMax)
-        self.subPlot.set_yticks([])
+        self._updateSubPlot()
 
         #3. display subplot (adcValue,timeWhentheAdcValueIsRead)
         self.subPlot.plot(self.time,self.data)

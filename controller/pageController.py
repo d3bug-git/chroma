@@ -35,6 +35,7 @@ class PageController:
 
     def handlerSurtension(self,info):
         pass   
+    
     def goToNextPage(self,event):
         self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
         self.pageModel.goToNextPage()

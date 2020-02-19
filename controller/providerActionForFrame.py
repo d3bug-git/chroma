@@ -138,8 +138,10 @@ class ProviderActionForFrame(object):
             Hardware.getInstance().deactivateSelectorMachine()
             Hardware.getInstance().deactivateSelectorVmax()
             Hardware.getInstance().startThreadForReadAdc()
+            frame.setVMax(Hardware.getInstance().getVMax())
         self.animationForGraphFrameFunction = frame.startAnimation()
         frame.setDuration(ChromaAnalyse.getInstance().getDuration())
+        
         RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
         return frame
 

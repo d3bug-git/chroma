@@ -25,7 +25,7 @@ class ConfigTimeFrame(RootFrame):
         
         
         #time spinbox
-        self.spinboxTime = Spinbox(self,from_=10, to=120,increment=10)
+        self.spinboxTime = Spinbox(self,from_=1, to=120,increment=1)
         self.spinboxTime.focus()
         self.spinboxTime.configure(font=self.font,fg=self.colorBlue,bg="white")
         
