@@ -194,10 +194,10 @@ class Hardware:
                 adcSurtension10V = self.adc.read_adc(self.CHANNEL_A3, gain=self.GAIN)
                 if adcSurtension5V >=5000:
                     pub.sendMessage("SURTENSION",info="5V")
-                    break;
+                    break
                 elif adcSurtension10V >=5000:
                     pub.sendMessage("SURTENSION",info="10V")
-                    break;
+                    break
                 print("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED))
                 print("vMax=",self.VMAX," value=",adcValue," at t=",seconds)
                 pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_AX",adcInfo={'vMax':self.VMAX,'value':adcValue,'time':seconds})
