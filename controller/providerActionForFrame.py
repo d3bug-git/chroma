@@ -115,7 +115,8 @@ class ProviderActionForFrame(object):
         if platform.system() != 'Windows':
             from hardware import Hardware
             Hardware.getInstance().activateSelectorMachine()
-            Hardware.getInstance().activateSelectorVmax()
+            #Hardware.getInstance().activateSelectorVmax()
+            Hardware.getInstance().startThreadGetStateOfPin()
         return frame
 
     def action_when_go_to_CONFIG_TIME(self,frame:ConfigTimeFrame):
@@ -136,7 +137,8 @@ class ProviderActionForFrame(object):
         if platform.system() != 'Windows':
             from hardware import Hardware
             Hardware.getInstance().deactivateSelectorMachine()
-            Hardware.getInstance().deactivateSelectorVmax()
+            #Hardware.getInstance().deactivateSelectorVmax()
+            Hardware.getInstance().stopThreadGetStateOfPin()
             Hardware.getInstance().startThreadForReadAdc()
             frame.setVMax(Hardware.getInstance().getVMax())
         self.animationForGraphFrameFunction = frame.startAnimation()

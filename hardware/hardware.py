@@ -53,7 +53,8 @@ class Hardware:
         self.CHANNEL_A3 = 3 #surtension 10V
         self.CHANNEL_USED = None
         self.VMAX = None
-        self.threadForReadAdc = threading.Thread(target = self.readAdcValueOfChannelAndSendMessage, args=(self.CHANNEL_USED,)) 
+        self.threadForReadAdc = threading.Thread(target = self.readAdcValueOfChannelAndSendMessage) 
+        self.threadForGetStateOfPin = threading.Thread(target= self.getStateOfPin)
         self.duration = 0
 
         GPIO.setmode(GPIO.BCM)
@@ -74,7 +75,7 @@ class Hardware:
         GPIO.add_event_detect(Broche.BUTTON_MOINS.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
         
         #machine 
-        GPIO.setup(Broche.RELAY_MACHINE.value,GPIO.OUT,initial=GPIO.LOW)
+        #GPIO.setup(Broche.RELAY_MACHINE.value,GPIO.OUT,initial=GPIO.LOW)
 
         #switch machine_1
         GPIO.setup(Broche.SWITCH_MACHINE_1.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
@@ -160,7 +161,6 @@ class Hardware:
 
     #think to do some thread who read all the 1s and send message
     def onTurnSelectorVmax(self,position):
-        print("selector is turn in position: ",position)
         if position in POSITION_FOR_CHANNEL_A0 :
             self.CHANNEL_USED = self.CHANNEL_A0
             self.VMAX = VMAX_FOR_CHANNEL_A0[str(position)]    
@@ -206,6 +206,33 @@ class Hardware:
             if self.stop_threads :
                 break
             time.sleep(0.01)
+
+    def getStateOfPin(self):
+        while True:
+            for position in POSITION_FOR_CHANNEL_A0:
+                if position == GPIO.HIGH:
+                    self.onTurnSelectorVmax(position)
+                    print("Selector ",self.VMAX,"V")
+            if Broche.SELECTOR_VMAX_IN_POSITION_10.value ==GPIO.HIGH:
+                self.onTurnSelectorVmax(Broche.SELECTOR_VMAX_IN_POSITION_10.value)
+                print("Selector ",self.VMAX,"V")
+            if self.stop_thread_getStateOfPin:
+                break
+            time.sleep(0.02)
+
+    def startThreadGetStateOfPin(self):
+        self.stopThreadGetStateOfPin()
+        self.stop_thread_getStateOfPin = False
+        self.threadForGetStateOfPin = threading.Thread(target= self.getStateOfPin)
+        self.threadForGetStateOfPin.start()
+        print("Thread get state of pin start")
+
+    def stopThreadGetStateOfPin(self):
+        self.stop_thread_getStateOfPin = True
+        if self.threadForGetStateOfPin.is_alive():
+            self.threadForGetStateOfPin.join()
+            print("Thread get state of pin killed")
+
     
     def startThreadForReadAdc(self):
         self.stopThreadForReadAdc()
