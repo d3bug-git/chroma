@@ -226,6 +226,11 @@ class Hardware:
 
     def getStateOfPin(self):
         while True:
+            if GPIO.HIGH == GPIO.input(Broche.SELECTOR_POSITION_MACHINE_1.value):
+                GPIO.output(Broche.RELAY_MACHINE.value, GPIO.LOW)
+            if GPIO.HIGH == GPIO.input(Broche.SELECTOR_POSITION_MACHINE_2.value):
+                GPIO.output(Broche.RELAY_MACHINE.value, GPIO.HIGH)
+
             for position in POSITION_FOR_CHANNEL_A0:
                 if position == GPIO.HIGH:
                     self.onTurnSelectorVmax(position)

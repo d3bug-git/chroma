@@ -114,7 +114,7 @@ class ProviderActionForFrame(object):
         import platform
         if platform.system() != 'Windows':
             from hardware import Hardware
-            Hardware.getInstance().activateSelectorMachine()
+            #Hardware.getInstance().activateSelectorMachine()
             #Hardware.getInstance().activateSelectorVmax()
             Hardware.getInstance().startThreadGetStateOfPin()
         return frame
@@ -136,7 +136,7 @@ class ProviderActionForFrame(object):
         import platform
         if platform.system() != 'Windows':
             from hardware import Hardware
-            Hardware.getInstance().deactivateSelectorMachine()
+            #Hardware.getInstance().deactivateSelectorMachine()
             #Hardware.getInstance().deactivateSelectorVmax()
             Hardware.getInstance().stopThreadGetStateOfPin()
             Hardware.getInstance().startThreadForReadAdc()
