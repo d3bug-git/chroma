@@ -58,6 +58,7 @@ class ProviderActionForFrame(object):
             RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",popup.quit)
             while len(keyPath)==0:
                 popup.popupAskRetry(title=title,message=msg)
+                RootView.getInstance().focus_force()
                 keyPath = self.getPathOfUSBKey()
             popup.destroy()
             RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
@@ -98,6 +99,7 @@ class ProviderActionForFrame(object):
         title = "Matériel d'enregistrement"
         message = "Les données ont bien été enregistrées sur la clé USB\n:)"
         popup.popupInformation(title=title,message=message)
+        RootView.getInstance().focus_force()
         popup.destroy()
         #unbind stop an ok to quit
         RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")

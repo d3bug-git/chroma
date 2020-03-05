@@ -74,7 +74,7 @@ class Hardware:
         GPIO.add_event_detect(Broche.BUTTON_MOINS.value,GPIO.RISING,callback=self.onClickButton,bouncetime=500)
         
         #machine 
-        #GPIO.setup(Broche.RELAY_MACHINE.value,GPIO.OUT,initial=GPIO.LOW)
+        GPIO.setup(Broche.RELAY_MACHINE.value,GPIO.OUT)
 
         #switch machine_1
         GPIO.setup(Broche.SWITCH_MACHINE_1.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
@@ -96,22 +96,13 @@ class Hardware:
         GPIO.setup(Broche.SELECTOR_VMAX_IN_POSITION_10.value,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
 
 #********************************************** SHUTDOWN **********************************************
-        GPIO.add_event_detect(Broche.BUTTON_STOP, GPIO.BOTH, callback=self.handleButtonStop, bouncetime=200)
-    DURATION_OF_PRESS = 3
-    def handleButtonStop(self):
-        global start
-        global end
-        if GPIO.input(Broche.BUTTON_STOP) == GPIO.HIGH:
-            start = time.time()
-        if GPIO.input(Broche.BUTTON_STOP) == GPIO.LOW:
-            end = time.time()
-            elapsed = end - start
-            print(elapsed)
-            if elapsed >= self.DURATION_OF_PRESS :
-                import os
-                os.system("shutdown now -h")
-            else:
-                self.onClickButton(Broche.BUTTON_STOP.value)
+        GPIO.add_event_detect(Broche.BUTTON_STOP.value, GPIO.RISING, callback=self.handleButtonStop, bouncetime=500)
+        self.start=0
+
+    TIME_TO_STOP = 0.2
+    def handleButtonStop(self,button):
+        self.start = time.time()
+        self.onClickButton(button)
 
 
 #********************************************** SELECTOR **********************************************
@@ -175,6 +166,7 @@ class Hardware:
         return self.VMAX
         
     def onClickButton(self,button):
+        print(Broche.getBroche(button))
         self.sendHardwareEvent(Broche.getBroche(button))
 
     #think to do some thread who read all the 1s and send message
@@ -205,6 +197,7 @@ class Hardware:
         start = time.time()
         seconds = 0
         while True and seconds < self.duration:
+            #self.handleButtonStop(Broche.BUTTON_STOP.value)
             if (time.time()- start)> 1:
                 adcValue=self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
                 #lecture pour surtension
@@ -227,18 +220,23 @@ class Hardware:
 
     def getStateOfPin(self):
         while True:
+            #self.handleButtonStop(Broche.BUTTON_STOP.value)
+            if 0!= self.start and time.time()-self.start < self.TIME_TO_STOP:
+                if GPIO.input(Broche.BUTTON_OK.value) == GPIO.HIGH:
+                    import os
+                    print("shutdown")
+                    os.system("shutdown now -h")
+
             if GPIO.HIGH == GPIO.input(Broche.SELECTOR_POSITION_MACHINE_1.value):
                 GPIO.output(Broche.RELAY_MACHINE.value, GPIO.LOW)
             if GPIO.HIGH == GPIO.input(Broche.SELECTOR_POSITION_MACHINE_2.value):
                 GPIO.output(Broche.RELAY_MACHINE.value, GPIO.HIGH)
 
             for position in POSITION_FOR_CHANNEL_A0:
-                if position == GPIO.HIGH:
+                if GPIO.input(position) == GPIO.HIGH:
                     self.onTurnSelectorVmax(position)
-                    print("Selector ",self.VMAX,"V")
-            if Broche.SELECTOR_VMAX_IN_POSITION_10.value ==GPIO.HIGH:
+            if GPIO.input(Broche.SELECTOR_VMAX_IN_POSITION_10.value) ==GPIO.HIGH:
                 self.onTurnSelectorVmax(Broche.SELECTOR_VMAX_IN_POSITION_10.value)
-                print("Selector ",self.VMAX,"V")
             if self.stop_thread_getStateOfPin:
                 break
             time.sleep(0.02)
