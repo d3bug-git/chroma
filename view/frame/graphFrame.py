@@ -21,7 +21,7 @@ from .rootFrame import RootFrame
 __all__ = ['GraphFrame',]
 
 class GraphFrame(RootFrame):
-    TITLE_START="Chroma graph\n"+"Machine calibrée "
+    TITLE_START="Graphique\n"+"Machine calibrée à "
     def __init__(self,*args,**kw):
         super(GraphFrame,self).__init__(*args,**kw)
         self.canevas.pack_forget()
@@ -42,7 +42,7 @@ class GraphFrame(RootFrame):
         self.figure = Figure(figsize=(5, 4), dpi=100)
         self.subPlot = self.figure.add_subplot(111)
         self.subPlot.set_title(self.getTitle())
-        self.subPlot.set_xlabel("Temps (s)")
+        self.subPlot.set_xlabel("Temps [s]")
         self.subPlot.set_xlim(0, self.duration)
         self.subPlot.set_ylim(0, self.vMax)
         self.subPlot.set_yticks([])
@@ -105,7 +105,7 @@ class GraphFrame(RootFrame):
 
         #set value
         self.subPlot.set_title(self.getTitle())
-        self.subPlot.set_xlabel("Temps (s)")
+        self.subPlot.set_xlabel("Temps [s]")
         self.subPlot.set_xlim(0, self.getDuration())
         self.subPlot.set_ylim(0, self.getVMax())
         self.subPlot.set_yticks([])

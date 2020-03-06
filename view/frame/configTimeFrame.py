@@ -31,7 +31,7 @@ class ConfigTimeFrame(RootFrame):
         
 
         #config time
-        self.labelConfigTime =Label(self,text="Entrer la durée de l'analyse en minute")
+        self.labelConfigTime =Label(self,text="Entrer la durée de l'analyse en minute.")
         self.labelConfigTime.configure(font=self.font,fg=self.colorBlue,bg="white")
 
         #display

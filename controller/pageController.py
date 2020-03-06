@@ -37,12 +37,14 @@ class PageController:
         pass   
     
     def goToNextPage(self,event):
-        self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
-        if self.pageModel.getPage() == Page.INSERT_USB and not self.rootView.getFrame().getUsb():
-            return
+        if self.pageModel.getPage() == Page.INSERT_USB :
+            self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
+            if not self.rootView.getFrame().getUsb():
+                return
         if self.pageModel.getPage() == Page.REAL_TIME_GRAPH:
             self.pageModel.goToPage(Page.INSERT_USB)
             return
+        self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
         self.pageModel.goToNextPage()
 
     def goToPreviousPage(self,event):

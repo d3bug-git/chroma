@@ -21,7 +21,7 @@ class ConfirmAnalyseFrame(RootFrame):
 
         #label config time
         self.textConfigTime = StringVar()
-        self.textConfigTime.set("L'analyse est configurer pour durer "+self.duration+" minutes\nAppuyez sur le bouton OK pour lancer l'analyse")
+        self.textConfigTime.set("L'analyse est configurée pour durer "+self.duration+" minute(s).\nAppuyer sur le bouton OK pour lancer l'analyse.")
         self.labelConfigTime =Label(self,textvariable=self.textConfigTime)
         self.labelConfigTime.configure(font=self.font,fg=self.colorBlue,bg="white")
 
@@ -35,4 +35,4 @@ class ConfirmAnalyseFrame(RootFrame):
     
     def setDuration(self,duration):
         self.duration = str(duration)
-        self.textConfigTime.set("L'analyse est configurer pour durer "+self.duration+" minutes\nAppuyez sur le bouton OK pour lancer l'analyse\nStop pour modifier la durée")
+        self.textConfigTime.set("L'analyse est configurée pour durer "+self.duration+" minute(s).\nAppuyer sur le bouton OK pour lancer l'analyse.\nStop pour modifier la durée.")

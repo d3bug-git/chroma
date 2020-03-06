@@ -55,7 +55,7 @@ class ProviderActionForFrame(object):
             print("enter action when quit insert usb")
             keyPath = self.getPathOfUSBKey()
             if len(keyPath)==0:
-                RootView.getInstance().getFrame().setMsg("clé usb non détectée")
+                RootView.getInstance().getFrame().setMsg("Clef usb non détectée.")
                 RootView.getInstance().getFrame().setUsb(False)
                 return
             keyPath= "/media/pi/"+ keyPath+"/"
@@ -87,7 +87,7 @@ class ProviderActionForFrame(object):
             ChromaAnalyse.getInstance().saveDataToUsbKey()
             RootView.getInstance().getFrame().saveImageOfGraphWithName(ChromaAnalyse.getInstance().getKeyPath()+ChromaAnalyse.getInstance().getNameOfFile())
         self.animationForGraphFrameFunction=None
-        RootView.getInstance().getFrame().setMsg("Analyse stopped and Data save to usb key :)")
+        RootView.getInstance().getFrame().setMsg("Analyse stoppée et données stockées sur la clef usb.")
         #bind ok,stop to next an previous page
         RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
         ChromaAnalyse.getInstance().reset()
