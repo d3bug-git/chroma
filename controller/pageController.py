@@ -34,7 +34,11 @@ class PageController:
         pub.subscribe(self.handlerSurtension,"SURTENSION")
 
     def handlerSurtension(self,info):
-        self.rootView.setLabelInfo("ATTENTION SURTENSION "+info)
+        if None == info:
+            self.rootView.setLabelInfo("")
+        else:
+            self.rootView.setLabelInfo("ATTENTION SURTENSION "+info)
+
     
     def goToNextPage(self,event):
         if self.pageModel.getPage() == Page.INSERT_USB :

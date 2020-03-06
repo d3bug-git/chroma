@@ -195,11 +195,17 @@ class Hardware:
         adcSurtension10V = self.adc.read_adc(self.CHANNEL_A3, gain=self.GAIN)
         if adcSurtension5V >=5000:
             pub.sendMessage("SURTENSION",info="5V")
+            self.lastSurtension = self.surtension
+            self.surtension = True
             return True
         elif adcSurtension10V >=5000:
             pub.sendMessage("SURTENSION",info="10V")
+            self.lastSurtension = self.surtension
+            self.surtension = True
             return True
         else:
+            if not self.surtension and self.lastSurtension:
+                pub.sendMessage("SURTENSION",info=None)
             return False
 
     READ_TIME=0.2
