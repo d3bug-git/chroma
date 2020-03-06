@@ -35,7 +35,7 @@ class RootView(Tk):
         self.wm_attributes("-fullscreen",True)
          
         #button
-        self.panedWindow = PanedWindow()
+        """self.panedWindow = PanedWindow()
         self.panedWindow.pack(side="bottom")
         self.buttonStop = Button(self.panedWindow,text="Stop",command=self._generateEventStopButton)
         self.panedWindow.add(self.buttonStop)
@@ -44,7 +44,7 @@ class RootView(Tk):
         buttonPlus = Button(self.panedWindow,text="Plus",command =lambda : self.event_generate('<<BUTTON_PLUS>>'))
         self.panedWindow.add(buttonPlus)
         buttonMoins = Button(self.panedWindow,text="Moins",command =lambda : self.event_generate('<<BUTTON_MOINS>>'))
-        self.panedWindow.add(buttonMoins)
+        self.panedWindow.add(buttonMoins)"""
 
     
     def _generateEventOkButton(self):
