@@ -123,4 +123,4 @@ class GraphFrame(RootFrame):
         self.subPlot.plot(self.time,self.data)
 
     def startAnimation(self):
-        return animation.FuncAnimation(self.figure,self.animate, interval=1000)
+        return animation.FuncAnimation(self.figure,self.animate, interval=100)
