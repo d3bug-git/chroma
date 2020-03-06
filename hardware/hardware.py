@@ -56,6 +56,8 @@ class Hardware:
         self.threadForReadAdc = threading.Thread(target = self.readAdcValueOfChannelAndSendMessage) 
         self.threadForGetStateOfPin = threading.Thread(target= self.getStateOfPin)
         self.duration = 0
+        self.surtension =False
+        self.lastSurtension =False
 
         GPIO.setmode(GPIO.BCM)
         #Button Ok
@@ -188,27 +190,35 @@ class Hardware:
         GPIO.output(Broche.RELAY_MACHINE.value, GPIO.HIGH)
         print("machine 2 sélectionnée")
 
-    def readAdcValue(self):
-        if(self.CHANNEL_USED==None):
-            raise Exception("Erreur: CHANNEL_USED=None ")
-        return self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
+    def detectSurtension(self):
+        adcSurtension5V = self.adc.read_adc(self.CHANNEL_A2, gain=self.GAIN)
+        adcSurtension10V = self.adc.read_adc(self.CHANNEL_A3, gain=self.GAIN)
+        if adcSurtension5V >=5000:
+            pub.sendMessage("SURTENSION",info="5V")
+            return True
+        elif adcSurtension10V >=5000:
+            pub.sendMessage("SURTENSION",info="10V")
+            return True
+        else:
+            return False
+
     READ_TIME=0.2
     def readAdcValueOfChannelAndSendMessage(self):
         start = time.time()
         seconds = 0
-        while True and seconds < self.duration:
-            #self.handleButtonStop(Broche.BUTTON_STOP.value)
+        while True:
+            if seconds >= self.duration:
+                self.stopThreadForReadAdc()
+                self.onClickButton(Broche.BUTTON_STOP.value)
+                break
+
             if (time.time()- start)> self.READ_TIME:
                 adcValue=self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
-                #lecture pour surtension
-                adcSurtension5V = self.adc.read_adc(self.CHANNEL_A2, gain=self.GAIN)
-                adcSurtension10V = self.adc.read_adc(self.CHANNEL_A3, gain=self.GAIN)
-                if adcSurtension5V >=5000:
-                    pub.sendMessage("SURTENSION",info="5V")
-                    break
-                elif adcSurtension10V >=5000:
-                    pub.sendMessage("SURTENSION",info="10V")
-                    break
+                #detect surtension
+                if self.detectSurtension() :
+                    self.stopThreadForReadAdc()
+                    self.onClickButton(Broche.BUTTON_STOP.value)
+
                 print("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED))
                 print("vMax=",self.VMAX," value=",adcValue," at t=",seconds)
                 pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_AX",adcInfo={'vMax':self.VMAX,'value':adcValue,'time':seconds})
@@ -220,7 +230,7 @@ class Hardware:
 
     def getStateOfPin(self):
         while True:
-            #self.handleButtonStop(Broche.BUTTON_STOP.value)
+            self.detectSurtension()
             if 0!= self.start and time.time()-self.start < self.TIME_TO_STOP:
                 if GPIO.input(Broche.BUTTON_OK.value) == GPIO.HIGH:
                     import os

@@ -6,7 +6,7 @@
 from utils.require import require
 require("tkinter")
 
-from tkinter import Tk,Button,PanedWindow
+from tkinter import Tk,Button,PanedWindow,StringVar,Label
 
 from .frame import HomeFrame
 
@@ -29,10 +29,17 @@ class RootView(Tk):
             RootView.__instance = self
             
         super(RootView,self).__init__(**kw)
+        self.configure(bg="white")
         self.title("Chroma V0.1")
         self.frame = HomeFrame(self)
         self.frame.pack(side="top", fill="both", expand = True) 
-        self.wm_attributes("-fullscreen",True)
+        #msg 
+        self.varInfo = StringVar()
+        self.labelInfo = Label( self, textvariable=self.varInfo)
+        self.labelInfo.configure(font=('tahoma', 20, 'bold'),fg="#ff0000",bg="white")
+        self.varInfo.set("")
+        self.labelInfo.pack(side="top")
+        #self.wm_attributes("-fullscreen",True)
          
         #button
         """self.panedWindow = PanedWindow()
@@ -61,3 +68,6 @@ class RootView(Tk):
         
     def getFrame(self):
         return self.frame
+        
+    def setLabelInfo(self,info):
+        self.varInfo.set(info)
