@@ -65,7 +65,7 @@ class PageController:
         #if  in graphFrame set  adcInfo to view
         if self.pageModel.getPage() == Page.REAL_TIME_GRAPH:
             #read gain in hardware 4096->10 x->? beacuse in graphFrame i put vMax to 10
-            value = (adcInfo['value']*adcInfo['vMax'])/4096
+            value = (adcInfo['value']*adcInfo['vMax'])/32000
             #save adcInfo and set to graph
             ChromaAnalyse.getInstance().setAdcValue(value)
             ChromaAnalyse.getInstance().setTimeValue(adcInfo['time'])
