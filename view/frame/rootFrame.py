@@ -21,6 +21,8 @@ class RootFrame(Frame):
         self.font = ('tahoma', 20, 'bold')
         self.colorOrange = '#e6482d'
         self.colorBlue = '#0e1a28'
+        self.colorRed ='#ff0000'
+        self.colorGreen ='#00ff00'
         
         #image de fond
         photo =  ImageTk.PhotoImage(Image.open("yiec_min.jpg"))

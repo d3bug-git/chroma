@@ -9,7 +9,7 @@ require("tkinter")
 import matplotlib
 matplotlib.use("TkAgg")
 
-from tkinter import TOP,BOTH
+from tkinter import TOP,BOTH,StringVar,Label
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 from matplotlib.figure import Figure
 import matplotlib.animation as animation
@@ -32,6 +32,13 @@ class GraphFrame(RootFrame):
         self.duration = 600
         self.title= self.TITLE_START+"UNKNOW V"
 
+        #msg 
+        self.varMsg = StringVar()
+        self.labelMsg = Label( self, textvariable=self.varMsg)
+        self.labelMsg.configure(font=self.font,fg=self.colorGreen,bg="white")
+        self.varMsg.set("")
+        self.labelMsg.pack()
+
         self.figure = Figure(figsize=(5, 4), dpi=100)
         self.subPlot = self.figure.add_subplot(111)
         self.subPlot.set_title(self.getTitle())
@@ -43,7 +50,9 @@ class GraphFrame(RootFrame):
         self.canvas = FigureCanvasTkAgg(self.figure, master=self)  # A tk.DrawingArea.
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=True)
-    
+
+    def setMsg(self,msg):
+        self.varMsg.set(msg)
     def getFigure(self):
         return self.figure
     

@@ -7,7 +7,7 @@ from utils import require
 require("pypubsub")
 from pubsub import pub
 from model import ChromaAnalyse
-from view import RootView,ConfirmAnalyseFrame,ConfigTimeFrame,Popup,InsertUSBFrame,GraphFrame,HomeFrame
+from view import RootView,ConfirmAnalyseFrame,ConfigTimeFrame,InsertUSBFrame,GraphFrame,HomeFrame
 from hardware import Broche
 import time
 
@@ -53,19 +53,15 @@ class ProviderActionForFrame(object):
         import platform
         if platform.system() != 'Windows':
             print("enter action when quit insert usb")
-            popup = Popup()
             keyPath = self.getPathOfUSBKey()
-            RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",popup.quit)
-            while len(keyPath)==0:
-                popup.popupAskRetry(title=title,message=msg)
-                RootView.getInstance().focus_force()
-                keyPath = self.getPathOfUSBKey()
-            popup.destroy()
-            RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
-            RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
+            if len(keyPath)==0:
+                RootView.getInstance().getFrame().setMsg("clé usb non détectée")
+                RootView.getInstance().getFrame().setUsb(False)
+                return
             keyPath= "/media/pi/"+ keyPath+"/"
             ChromaAnalyse.getInstance().setKeyPath(keyPath)
-            print("quit action when quit insert usb")          
+            RootView.getInstance().getFrame().setUsb(True)
+            print("quit action when quit insert usb")    
     
     def action_when_quit_CONFIG_TIME(self):
         self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Continuer")
@@ -79,7 +75,6 @@ class ProviderActionForFrame(object):
         import platform
         if platform.system() != 'Windows':
             from hardware import Hardware
-            Hardware.getInstance().deactiveSwitchMachine()
         self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Lancer l'analyse")
    
     def action_when_quit_REAL_TIME_GRAPH(self):
@@ -87,26 +82,14 @@ class ProviderActionForFrame(object):
         if platform.system() != 'Windows':
             from hardware import Hardware
             Hardware.getInstance().stopThreadForReadAdc()
+            Hardware.getInstance().deactiveSwitchMachine()
             #TODO: verify if usb key is inserted
             ChromaAnalyse.getInstance().saveDataToUsbKey()
             RootView.getInstance().getFrame().saveImageOfGraphWithName(ChromaAnalyse.getInstance().getKeyPath()+ChromaAnalyse.getInstance().getNameOfFile())
         self.animationForGraphFrameFunction=None
-        popup = Popup()
-        #bind to quit popup
-        RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",popup.quit)
-        RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_STOP)+">>",popup.quit)
-        #display popup
-        title = "Matériel d'enregistrement"
-        message = "Les données ont bien été enregistrées sur la clé USB\n:)"
-        popup.popupInformation(title=title,message=message)
-        RootView.getInstance().focus_force()
-        popup.destroy()
-        #unbind stop an ok to quit
-        RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
-        RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_STOP)+">>")
+        RootView.getInstance().getFrame().setMsg("Analyse stopped and Data save to usb key :)")
         #bind ok,stop to next an previous page
         RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>",self.controller.goToNextPage)
-        RootView.getInstance().bind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_STOP)+">>",self.controller.goToPreviousPage)
         ChromaAnalyse.getInstance().reset()
          
 #********************************Action when go********************************
@@ -135,6 +118,7 @@ class ProviderActionForFrame(object):
         return frame
     
     def action_when_go_to_REAL_TIME_GRAPH(self,frame:GraphFrame):
+        RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
         import platform
         if platform.system() != 'Windows':
             from hardware import Hardware
@@ -146,6 +130,5 @@ class ProviderActionForFrame(object):
         self.animationForGraphFrameFunction = frame.startAnimation()
         frame.setDuration(ChromaAnalyse.getInstance().getDuration())
         
-        RootView.getInstance().unbind("<<"+self.controller.convertBrocheToBrocheName(Broche.BUTTON_OK)+">>")
         return frame
 

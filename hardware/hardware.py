@@ -192,13 +192,13 @@ class Hardware:
         if(self.CHANNEL_USED==None):
             raise Exception("Erreur: CHANNEL_USED=None ")
         return self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
-        
+    READ_TIME=0.2
     def readAdcValueOfChannelAndSendMessage(self):
         start = time.time()
         seconds = 0
         while True and seconds < self.duration:
             #self.handleButtonStop(Broche.BUTTON_STOP.value)
-            if (time.time()- start)> 1:
+            if (time.time()- start)> self.READ_TIME:
                 adcValue=self.adc.read_adc(self.CHANNEL_USED, gain=self.GAIN)
                 #lecture pour surtension
                 adcSurtension5V = self.adc.read_adc(self.CHANNEL_A2, gain=self.GAIN)
@@ -213,7 +213,7 @@ class Hardware:
                 print("vMax=",self.VMAX," value=",adcValue," at t=",seconds)
                 pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_AX",adcInfo={'vMax':self.VMAX,'value':adcValue,'time':seconds})
                 start = time.time()
-                seconds+=1 
+                seconds+=self.READ_TIME 
             if self.stop_threads :
                 break
             time.sleep(0.01)

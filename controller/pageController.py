@@ -38,6 +38,8 @@ class PageController:
     
     def goToNextPage(self,event):
         self.providerActionForFrame.getActionWhenQuit(self.convertPageToFrameName(self.pageModel.getPage()))
+        if self.pageModel.getPage() == Page.INSERT_USB and not self.rootView.getFrame().getUsb():
+            return
         self.pageModel.goToNextPage()
 
     def goToPreviousPage(self,event):

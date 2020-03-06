@@ -20,6 +20,13 @@ class InsertUSBFrame(RootFrame):
         self.canevas.create_image(0,0,anchor=NW,image=self.photo)
 
         #label
+            #msg erreur usb
+        self.varMsg = StringVar()
+        self.labelMsg = Label( self, textvariable=self.varMsg)
+        self.labelMsg.configure(font=self.font,fg=self.colorRed,bg="white")
+        self.varMsg.set("")
+        self.usb=False
+        self.labelMsg.pack()
             #suivant
         self.labelSuivant =Label(self,text="Suivant",relief=RAISED)
         self.labelSuivant.configure(font=self.font,fg=self.colorOrange,bg="white")
@@ -28,3 +35,12 @@ class InsertUSBFrame(RootFrame):
         self.labelInsertUsb =Label(self,text="Insérer une clé USB\npour stocker le résultat de l'analyse")
         self.labelInsertUsb.configure(font=self.font,fg=self.colorBlue,bg="white")
         self.labelInsertUsb.pack(side="top")
+
+    def setMsg(self,msg):
+        self.varMsg.set(msg)
+
+    def setUsb(self,usb):
+        self.usb = usb
+
+    def getUsb(self):
+        return self.usb
