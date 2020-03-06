@@ -25,7 +25,7 @@ class InsertUSBFrame(RootFrame):
         self.labelMsg = Label( self, textvariable=self.varMsg)
         self.labelMsg.configure(font=self.font,fg=self.colorRed,bg="white")
         self.varMsg.set("")
-        self.usb=False
+        self.usb=True
         self.labelMsg.pack()
             #suivant
         self.labelSuivant =Label(self,text="Suivant",relief=RAISED)

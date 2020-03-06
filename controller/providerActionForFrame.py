@@ -64,7 +64,7 @@ class ProviderActionForFrame(object):
             print("quit action when quit insert usb")    
     
     def action_when_quit_CONFIG_TIME(self):
-        self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Continuer")
+        #self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Continuer")
 
         ChromaAnalyse.getInstance().setDuration(int(RootView.getInstance().getFrame().getTimeConfigured()))
         pub.sendMessage("DURATION_OF_ANALYSE",duration=ChromaAnalyse.getInstance().getDuration())
@@ -75,7 +75,7 @@ class ProviderActionForFrame(object):
         import platform
         if platform.system() != 'Windows':
             from hardware import Hardware
-        self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Lancer l'analyse")
+        #self.action_when_quit_INSERT_USB(title="Matériel d'enregistrement",msg="Veuillez insérer la clé USB pour Lancer l'analyse")
    
     def action_when_quit_REAL_TIME_GRAPH(self):
         import platform
