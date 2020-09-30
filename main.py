@@ -4,14 +4,15 @@
 @author: Serge Watchou
 """
 import platform
+import keyboard
 
-from view import RootView,ProviderFrame
-from model import PageModel,Page
+from view import RootView, ProviderFrame
+from model import PageModel, Page
 from controller import PageController
 
 if platform.system() != 'Windows':
     from hardware import Hardware
-    
+
 
 if __name__ == "__main__":
     m = PageModel()
@@ -20,7 +21,6 @@ if __name__ == "__main__":
     if platform.system() != 'Windows':
         h = Hardware()
 
-    c = PageController(m,v,p)
+    c = PageController(m, v, p)
+    keyboard.add_hotkey('ctrl+d', v.toggleShowDebugPanel)
     c.getView().mainloop()
-   
-
