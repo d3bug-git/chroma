@@ -92,8 +92,6 @@ class ProviderActionForFrame(object):
             Hardware.getInstance().deactiveSwitchMachine()
             # TODO: verify if usb key is inserted
             ChromaAnalyse.getInstance().saveDataToUsbKey()
-            RootView.getInstance().getFrame().saveImageOfGraphWithName(
-                ChromaAnalyse.getInstance().getKeyPath()+ChromaAnalyse.getInstance().getNameOfFile())
         self.animationForGraphFrameFunction = None
         RootView.getInstance().getFrame().setMsg(
             "Analyse stoppée et données stockées sur la clef usb.")
