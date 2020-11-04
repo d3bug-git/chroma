@@ -40,16 +40,14 @@ class GraphFrame(RootFrame):
         self.labelMsg.pack()
 
         self.figure = Figure(figsize=(5, 4), dpi=100)
-        self.subPlot = self.figure.add_subplot(111)
-        self.subPlot.set_title(self.getTitle())
-        self.subPlot.set_xlabel("Temps [s]")
-        self.subPlot.set_xlim(0, self.duration)
-        self.subPlot.set_ylim(0, self.vMax)
-        self.subPlot.set_yticks([])
+        self.subPlot = self.figure.add_subplot(
+            111, xlim=[0, self.getDuration()], ylim=[0, self.getVMax()])
+
+        self._updateSubPlot()
 
         # A tk.DrawingArea.
         self.canvas = FigureCanvasTkAgg(self.figure, master=self)
-        self.canvas.draw()
+        self.canvas.show()
         self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=True)
 
     def setMsg(self, msg):
@@ -67,18 +65,6 @@ class GraphFrame(RootFrame):
     def getSubPlot(self):
         return self.subPlot
 
-    def setFigure(self, figure: Figure):
-        self.canvas.get_tk_widget().pack_forget()
-        self.canvas.get_tk_widget().destroy()
-
-        self.figure = figure
-        self.subPlot = self.figure.add_subplot(111)
-
-        # A tk.DrawingArea.
-        self.canvas = FigureCanvasTkAgg(self.figure, master=self)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=True)
-
     def setData(self, data):
         self.data = data
 
@@ -86,7 +72,7 @@ class GraphFrame(RootFrame):
         self.time = time
 
     def setVMax(self, vMax):
-        self.vMax = vMax
+        self.vMax = round(float(vMax), 2)
         self.setTitle(self.TITLE_START+str(self.vMax)+"V")
         self._updateSubPlot()
 
@@ -94,20 +80,20 @@ class GraphFrame(RootFrame):
         return self.vMax
 
     def setDuration(self, duration):
-        self.duration = duration*60  # convert in seconds
+        self.duration = int(duration*60)  # convert in seconds
 
     def getDuration(self):
         return self.duration
 
     def _updateSubPlot(self):
-        # 2. clear subplot
+        #  clear subplot
         self.subPlot.clear()
 
         # set value
         self.subPlot.set_title(self.getTitle())
         self.subPlot.set_xlabel("Temps [s]")
-        self.subPlot.set_xlim(0, self.getDuration())
-        self.subPlot.set_ylim(0, int(self.getVMax()))
+        self.subPlot.set_xlim([0, self.getDuration()])
+        self.subPlot.set_ylim([0, self.getVMax()])
         self.subPlot.set_yticks([])
 
     def animate(self, i):
@@ -122,5 +108,7 @@ class GraphFrame(RootFrame):
         # 3. display subplot (adcValue,timeWhentheAdcValueIsRead)
         self.subPlot.plot(self.time, self.data)
 
+        self.canvas.draw()
+
     def startAnimation(self):
-        return animation.FuncAnimation(self.figure, self.animate, interval=100)
+        return animation.FuncAnimation(self.figure, self.animate, interval=1010)
