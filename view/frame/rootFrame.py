@@ -25,12 +25,23 @@ class RootFrame(Frame):
         self.colorGreen ='#00ff00'
         
         #image de fond
-        photo =  ImageTk.PhotoImage(Image.open("yiec_min.jpg"))
-        self.photo = photo
+        self.importPhoto()
 
         #Canevas
         self.canevas_width = 478
         self.canevas_height = 456
         self.canevas = Canvas(self,width=self.canevas_width,height=self.canevas_height,bg="white")
         self.canevas.pack()
+        
+    def getClassName(self):
+        return self.__class__.__name__
+        
+    def importPhoto(self):
+        import platform
+        if platform.system() != 'Windows':
+            photo =  ImageTk.PhotoImage(Image.open("/home/pi/Desktop/chroma/yiec_min.jpg"))
+            self.photo = photo
+        else:
+            photo =  ImageTk.PhotoImage(Image.open("yiec_min.jpg"))
+            self.photo = photo
         

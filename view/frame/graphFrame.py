@@ -105,10 +105,11 @@ class GraphFrame(RootFrame):
 
         self._updateSubPlot()
 
-        # 3. display subplot (adcValue,timeWhentheAdcValueIsRead)
+        # 3. display 
+        print("length time=",len(self.time),"length data=",len(self.data))
+        
         self.subPlot.plot(self.time, self.data)
-
-        self.canvas.draw()
+        
 
     def startAnimation(self):
-        return animation.FuncAnimation(self.figure, self.animate, interval=1010)
+        return animation.FuncAnimation(self.figure, self.animate,interval=1000)

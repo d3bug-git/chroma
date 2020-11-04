@@ -78,10 +78,10 @@ class PageController:
         if self.pageModel.getPage() == Page.REAL_TIME_GRAPH:
             # read gain in hardware 4096->10 x->? beacuse in graphFrame i put vMax to 10
             if adcInfo['vMax'] < 10:
-                value = round((adcInfo['value']*adcInfo['vMax'])/32000, 2)
+                value = round((adcInfo['value']*adcInfo['vMax'])/32000, 5)
             else:
                 # TODO : modifier la valeur de 32000 quand c'est 10
-                value = round((adcInfo['value']*adcInfo['vMax'])/32000, 2)
+                value = round((adcInfo['value']*adcInfo['vMax'])/32000, 5)
 
             # save adcInfo and set to graph
             ChromaAnalyse.getInstance().setAdcValue(value)
@@ -92,7 +92,7 @@ class PageController:
                 ChromaAnalyse.getInstance().getTimeValue())
             RootView.getInstance().getFrame().setVMax(adcInfo['vMax'])
             print("receive analog data=", value, " at t=",
-                  adcInfo['time'], " VMAX=", adcInfo['vMax'])
+                adcInfo['time'], " VMAX=", adcInfo['vMax'])
 
     def getView(self):
         return self.rootView

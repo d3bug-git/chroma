@@ -43,7 +43,8 @@ class RootView(Tk):
         self.labelInfo.pack(side="top")
         self.isFullScreen = False
         self.isShowDebugPanel = False
-        # self.toggleFullScreen()
+        #self.toggleFullScreen()
+        #self.toggleShowDebugPanel()
 
     def _generateEventOkButton(self):
         self.event_generate('<<BUTTON_OK>>')

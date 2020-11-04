@@ -228,6 +228,7 @@ class Hardware:
     READ_TIME = 0.2
 
     def readAdcValueOfChannelAndSendMessage(self):
+        time.sleep(0.5)
         start = time.time()
         seconds = 0
         while True:
@@ -249,7 +250,7 @@ class Hardware:
                 pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_AX", adcInfo={
                                 'vMax': self.VMAX, 'value': adcValue, 'time': seconds})
                 start = time.time()
-                seconds += self.READ_TIME
+                seconds = round(self.READ_TIME+seconds,2)
             if self.stop_threads:
                 break
             time.sleep(0.01)

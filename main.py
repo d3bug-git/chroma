@@ -4,7 +4,6 @@
 @author: Serge Watchou
 """
 import platform
-import keyboard
 
 from view import RootView, ProviderFrame
 from model import PageModel, Page
@@ -22,5 +21,5 @@ if __name__ == "__main__":
         h = Hardware()
 
     c = PageController(m, v, p)
-    keyboard.add_hotkey('ctrl+d', v.toggleShowDebugPanel)
+
     c.getView().mainloop()
