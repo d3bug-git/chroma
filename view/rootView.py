@@ -43,6 +43,7 @@ class RootView(Tk):
         self.labelInfo.pack(side="top")
         self.isFullScreen = False
         self.isShowDebugPanel = False
+        # self.toggleFullScreen()
 
     def _generateEventOkButton(self):
         self.event_generate('<<BUTTON_OK>>')
@@ -78,7 +79,7 @@ class RootView(Tk):
 
     def toggleFullScreen(self):
         self.isFullScreen = not(self.isFullScreen)
-        self.wm_attributes("-fullscreen", not(self.isFullScreen))
+        self.wm_attributes("-fullscreen", self.isFullScreen)
 
     def setFrame(self, frame):
         self.frame.pack_forget()

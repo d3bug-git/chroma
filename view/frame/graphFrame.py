@@ -107,7 +107,7 @@ class GraphFrame(RootFrame):
         self.subPlot.set_title(self.getTitle())
         self.subPlot.set_xlabel("Temps [s]")
         self.subPlot.set_xlim(0, self.getDuration())
-        self.subPlot.set_ylim(0, self.getVMax())
+        self.subPlot.set_ylim(0, int(self.getVMax()))
         self.subPlot.set_yticks([])
 
     def animate(self, i):
