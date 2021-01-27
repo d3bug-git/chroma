@@ -43,8 +43,15 @@ class RootView(Tk):
         self.labelInfo.pack(side="top")
         self.isFullScreen = False
         self.isShowDebugPanel = False
-        #self.toggleFullScreen()
+        self.toggleFullScreen()
         #self.toggleShowDebugPanel()
+        self.buttonShowDebugPanel()
+        
+    def buttonShowDebugPanel(self):
+        self.helpPanedWindow = PanedWindow()
+        self.helpPanedWindow.pack(side="bottom")
+        self.buttonShow = Button(self.helpPanedWindow, text="Aide", command=self.toggleIsShowDebugPanel)
+        self.helpPanedWindow.add(self.buttonShow) 
 
     def _generateEventOkButton(self):
         self.event_generate('<<BUTTON_OK>>')
@@ -54,6 +61,7 @@ class RootView(Tk):
 
     def toggleIsShowDebugPanel(self):
         self.isShowDebugPanel = not(self.isShowDebugPanel)
+        self.toggleShowDebugPanel()
 
     def toggleShowDebugPanel(self):
         if not(self.isShowDebugPanel):
@@ -76,7 +84,7 @@ class RootView(Tk):
             self.panedWindow.add(buttonFullScreen)
         else:
             self.panedWindow.pack_forget()
-        self.toggleIsShowDebugPanel()
+        #self.toggleIsShowDebugPanel()
 
     def toggleFullScreen(self):
         self.isFullScreen = not(self.isFullScreen)

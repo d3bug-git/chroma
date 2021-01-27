@@ -4,6 +4,7 @@
 @author: Serge Watchou
 """
 
+
 from utils.require import require
 require("tkinter")
 from tkinter import Frame,Canvas
@@ -41,7 +42,10 @@ class RootFrame(Frame):
         if platform.system() != 'Windows':
             photo =  ImageTk.PhotoImage(Image.open("/home/pi/Desktop/chroma/yiec_min.jpg"))
             self.photo = photo
+              
+                        
         else:
             photo =  ImageTk.PhotoImage(Image.open("yiec_min.jpg"))
             self.photo = photo
+            
         

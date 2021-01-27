@@ -80,8 +80,8 @@ class PageController:
             if adcInfo['vMax'] < 10:
                 value = round((adcInfo['value']*adcInfo['vMax'])/32000, 5)
             else:
-                # TODO : modifier la valeur de 32000 quand c'est 10
-                value = round((adcInfo['value']*adcInfo['vMax'])/32000, 5)
+                # TODO : modifier la valeur de 32000 quand c'est 10 en 40 484
+                value = round((adcInfo['value']*adcInfo['vMax'])/40484, 5)
 
             # save adcInfo and set to graph
             ChromaAnalyse.getInstance().setAdcValue(value)

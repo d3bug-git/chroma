@@ -148,9 +148,11 @@ class Hardware:
         # selector in position 0->5V
         GPIO.add_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_5.value,
                               GPIO.RISING, callback=self.onTurnSelectorVmax, bouncetime=500)
+        
         # selector in position 0->10V
         GPIO.add_event_detect(Broche.SELECTOR_VMAX_IN_POSITION_10.value,
                               GPIO.RISING, callback=self.onTurnSelectorVmax, bouncetime=500)
+                    
         print("activate selector Vmax")
 
     def activeSwitchMachine(self):
