@@ -231,6 +231,8 @@ class Hardware:
 
     def readAdcValueOfChannelAndSendMessage(self):
         start = time.time()
+                
+        startAnalyse = time.time()
         seconds = 0
         while True:
             if seconds >= self.duration:
@@ -245,13 +247,16 @@ class Hardware:
                     self.stopThreadForReadAdc()
                     self.onClickButton(Broche.BUTTON_STOP.value)
 
+                start = time.time()
+                seconds = round(self.READ_TIME+seconds,2)
+                timeTaked = round(time.time()-startAnalyse,3)
+
                 print("HARDWARE_ADC_VALUE_CHANNEL_A"+str(self.CHANNEL_USED))
                 print("vMax=", self.VMAX, " value=",
                       adcValue, " at t=", seconds)
                 pub.sendMessage("HARDWARE_ADC_VALUE_CHANNEL_AX", adcInfo={
-                                'vMax': self.VMAX, 'value': adcValue, 'time': seconds})
-                start = time.time()
-                seconds = round(self.READ_TIME+seconds,2)
+                                'vMax': self.VMAX, 'value': adcValue, 'time': timeTaked})
+                
             if self.stop_threads:
                 break
             time.sleep(0.01)
