@@ -66,7 +66,7 @@ class ChromaAnalyse:
         i=0
         numberOfDataSave  = len(self.adcValue)
         while i < numberOfDataSave:
-            data = data +str(self.timeValue[i])+";"+str(self.adcValue[i])+"\n"
+            data = data +str(self.timeValue[i])+","+str(self.adcValue[i])+"\n"
             i = i+1
         self.nameOfFile ="analyse_"+str(datetime.now().strftime("%Y-%m-%d_%Hh%Mm%Ss"))
         with open(self.keyPath+self.nameOfFile+".xy", "w") as fichier:

@@ -227,10 +227,9 @@ class Hardware:
                 pub.sendMessage("SURTENSION", info=None)
             return False
 
-    READ_TIME = 0.2
+    READ_TIME = 0.5
 
     def readAdcValueOfChannelAndSendMessage(self):
-        time.sleep(0.5)
         start = time.time()
         seconds = 0
         while True:
